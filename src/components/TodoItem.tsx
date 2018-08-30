@@ -1,9 +1,9 @@
 import * as React from 'react';
 
-interface IProps {
+interface ITodoItemProps {
   title: string
 }
 
-const TodoItem = (props: IProps) => <li> {props.title} </li>;
+const TodoItem = (props: ITodoItemProps) => <li> {props.title} </li>;
 
 export default TodoItem;
