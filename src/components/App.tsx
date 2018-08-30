@@ -1,8 +1,17 @@
 import * as React from 'react';
 import * as _ from 'lodash';
+import styled from 'styled-components';
 import TodoList from './TodoList';
 import Header from './Header';
 import AddTodo from './AddTodo';
+
+const Wrapper = styled.div`
+  margin: 0 auto;
+  width: calc(768px + 16px * 2);
+  min-height: 100vh;
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+`;
 
 interface ITodo {
   id: number,
@@ -90,11 +99,11 @@ export default class App extends React.Component<{}, IAppState> {
 
   public render() {
     return (
-      <div>
+      <Wrapper>
         <Header />
         <AddTodo add={this.addTodoHandler} />
         <TodoList todos={this.state.todos} />
-      </div>
+      </Wrapper>
     );
   }
 }

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import styled from '../theme/index';
 
 interface ITodo {
   // id: number,
@@ -9,6 +10,24 @@ interface ITodo {
 interface IAddTodoProps {
   add: (newTodo: ITodo) => void
 }
+
+const Input = styled.input`
+  padding: 0.5em;
+  margin: 0.5em;
+  color: palevioletred;
+  background: papayawhip;
+  border: 1px solid palevioletred;
+  border-radius: 3px;
+`;
+
+const Button = styled.button`
+  padding: 0.5em;
+  margin: 0.5em;
+  color: black;
+  background: papayawhip;
+  border: 1px solid palevioletred;
+  border-radius: 3px;
+`;
 
 const AddTodo: React.SFC<IAddTodoProps> = props => {
 
@@ -39,10 +58,10 @@ const AddTodo: React.SFC<IAddTodoProps> = props => {
   return (
     <div>
       <form onSubmit={onSubmitHandler}>
-        <input type="text" ref={textInput} />
-        <button type="submit">
+        <Input type="text" innerRef={textInput} />
+        <Button type="submit">
           Add Todo
-        </button>
+        </Button>
       </form>
     </div>
   )
