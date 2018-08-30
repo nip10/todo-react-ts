@@ -1,20 +1,25 @@
 import * as React from 'react';
 
-// interface IonAdd = (newTodo: ITodo) => void
+interface ITodo {
+  // id: number,
+  title: string,
+  completed: boolean,
+}
 
-// interface ITodo {
-//   completed: boolean,
-//   id: number,
-//   title: string,
-//   userId: number,
-// }
+interface IAddTodoProps {
+  add: (newTodo: ITodo) => void
+}
 
-// type IonAdd = ((newTodo: ITodo) => void)
-
-const AddTodo = ({ onAdd }) => {
+const AddTodo: React.SFC<IAddTodoProps> = props => {
 
   const textInput: React.RefObject<HTMLInputElement> = React.createRef();
 
+  /**
+   * Submit form handler. Get the value from the input element and pass it to the add prop function.
+   *
+   * @param {React.FormEvent<EventTarget>} e
+   * @returns {void}
+   */
   const onSubmitHandler = (e: React.FormEvent<EventTarget>): void => {
     e.preventDefault();
     const todoRef = textInput.current;
@@ -23,7 +28,7 @@ const AddTodo = ({ onAdd }) => {
         return;
       }
       console.log(`Submited new todo: ${todoRef.value}`);
-      onAdd({
+      props.add({
         completed: false,
         title: todoRef.value,
       });

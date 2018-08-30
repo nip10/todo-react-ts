@@ -22,6 +22,12 @@ export default class App extends React.Component<{}, IAppState> {
     }
   }
 
+  /**
+   * Add a todo to app's state
+   *
+   * @private
+   * @memberof App
+   */
   private addTodoHandler = (newTodo: ITodo): void => {
     // Create a new id by incrementing the last saved todo id
     const newTodoId = _.get(this.state.todos[this.state.todos.length - 1], 'id', 0) + 1;
@@ -33,6 +39,12 @@ export default class App extends React.Component<{}, IAppState> {
     });
   }
 
+  /**
+   * Get the todo's saved in localstorage and pass them to the app's state
+   *
+   * @private
+   * @memberof App
+   */
   private hydrateStateWithLocalStorage = (): void => {
     if (localStorage.hasOwnProperty('todos')) {
       const todos = localStorage.getItem('todos');
@@ -47,6 +59,12 @@ export default class App extends React.Component<{}, IAppState> {
     }
   }
 
+  /**
+   * Save todos from the app's state in localstorage
+   *
+   * @private
+   * @memberof App
+   */
   private saveStateToLocalStorage = (): void => {
     localStorage.setItem('todos', JSON.stringify(this.state.todos));
   }
@@ -74,7 +92,7 @@ export default class App extends React.Component<{}, IAppState> {
     return (
       <div>
         <Header />
-        <AddTodo onAdd={this.addTodoHandler} />
+        <AddTodo add={this.addTodoHandler} />
         <TodoList todos={this.state.todos} />
       </div>
     );
