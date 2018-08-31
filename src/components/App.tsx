@@ -1,15 +1,22 @@
 import * as React from 'react';
 import * as _ from 'lodash';
-import styled from 'styled-components';
+import styled, { injectGlobal } from 'styled-components';
+import GithubCorner from 'react-github-corner';
 import TodoList from './TodoList';
 import Header from './Header';
 import AddTodo from './AddTodo';
 
+// tslint:disable-next-line:no-unused-expression
+injectGlobal`
+body {
+  background-color: #286DA8;
+}`
+
 const Wrapper = styled.div`
-  margin: 0 auto;
-  width: calc(768px + 16px * 2);
-  min-height: 100vh;
-  text-align: center;
+  margin: 2em auto;
+  max-width: 900px;
+  background-color: white;
+  padding: 1em;
   font-family: 'Roboto', sans-serif;
 `;
 
@@ -37,7 +44,7 @@ export default class App extends React.Component<{}, IAppState> {
    * @private
    * @memberof App
    */
-  private addTodoHandler = (newTodo: ITodo): void => {
+  private addTodo = (newTodo: ITodo): void => {
     // Create a new id by incrementing the last saved todo id
     const newTodoId = _.get(this.state.todos[this.state.todos.length - 1], 'id', 0) + 1;
     newTodo.id = newTodoId;
@@ -46,6 +53,15 @@ export default class App extends React.Component<{}, IAppState> {
     this.setState({
       todos
     });
+  }
+
+  private removeTodo = (todoId: number): void => {
+    // copy current list of todos
+    const list = [...this.state.todos];
+    // filter out the item being deleted
+    const updatedTodos = list.filter(item => item.id !== todoId);
+
+    this.setState({ todos: updatedTodos });
   }
 
   /**
@@ -101,8 +117,9 @@ export default class App extends React.Component<{}, IAppState> {
     return (
       <Wrapper>
         <Header />
-        <AddTodo add={this.addTodoHandler} />
-        <TodoList todos={this.state.todos} />
+        <AddTodo add={this.addTodo} />
+        <TodoList todos={this.state.todos} removeTodo={this.removeTodo} />
+        <GithubCorner href='https://github.com/nip10/todo-react-ts' />
       </Wrapper>
     );
   }

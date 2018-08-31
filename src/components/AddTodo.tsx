@@ -14,19 +14,21 @@ interface IAddTodoProps {
 const Input = styled.input`
   padding: 0.5em;
   margin: 0.5em;
-  color: palevioletred;
-  background: papayawhip;
-  border: 1px solid palevioletred;
-  border-radius: 3px;
+  border: 1px solid #286DA8;
+  width: 82%;
 `;
 
 const Button = styled.button`
   padding: 0.5em;
   margin: 0.5em;
-  color: black;
-  background: papayawhip;
-  border: 1px solid palevioletred;
-  border-radius: 3px;
+  border: 1px solid black;
+  width: 11%;
+  background-color: #286DA8;
+  color: white;
+`;
+
+const Form = styled.form`
+  padding: 1em 0;
 `;
 
 const AddTodo: React.SFC<IAddTodoProps> = props => {
@@ -46,7 +48,6 @@ const AddTodo: React.SFC<IAddTodoProps> = props => {
       if (!todoRef.value.trim()) {
         return;
       }
-      console.log(`Submited new todo: ${todoRef.value}`);
       props.add({
         completed: false,
         title: todoRef.value,
@@ -56,14 +57,12 @@ const AddTodo: React.SFC<IAddTodoProps> = props => {
   }
 
   return (
-    <div>
-      <form onSubmit={onSubmitHandler}>
-        <Input type="text" innerRef={textInput} />
-        <Button type="submit">
-          Add Todo
+    <Form onSubmit={onSubmitHandler}>
+      <Input type="text" innerRef={textInput} />
+      <Button type="submit">
+        Add Todo
         </Button>
-      </form>
-    </div>
+    </Form>
   )
 }
 

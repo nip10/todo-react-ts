@@ -9,11 +9,17 @@ const {
 } = styledComponents as styledComponents.ThemedStyledComponentsModule<IThemeInterface>;
 
 export interface IThemeInterface {
-  primaryColor: string;
+  color0: string,
+  color1: string,
+  color2: string,
+  color3: string,
 }
 
 export const theme = {
-  primaryColor: '#e9e9eb'
+  color0: '#286DA8',
+  color1: '#CD5360',
+  color2: '#B37D4E',
+  color3: '#438496',
 };
 
 export default styled;
