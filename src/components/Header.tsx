@@ -1,5 +1,10 @@
 import * as React from 'react';
+import styled from '../theme/index';
 
-const Header = () => <h1> Todo App </h1>;
+const Title = styled.h1`
+  text-align: center;
+`;
+
+const Header = () => <Title> Todo App </Title>;
 
 export default Header;
