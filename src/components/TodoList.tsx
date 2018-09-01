@@ -8,6 +8,7 @@ interface ITodoListProps {
   todos: ITodo[],
   removeTodo: (todoId: number) => void,
   editTodo: (todoId: number, todoText: string) => void,
+  toggleTodo: (todoId: number) => void,
 }
 
 const TodoListWrapper = styled.ul`
@@ -18,11 +19,17 @@ const TodoListWrapper = styled.ul`
 `
 
 export default class TodoList extends React.Component<ITodoListProps, {}> {
-  private renderTodoItems = (todos) => {
+  private renderTodoItems = (todos: ITodo[]) => {
     return (
       <TodoListWrapper>
         {todos.map((todo, index) => (
-          <TodoItem key={index} id={todo.id} text={todo.text} remove={this.props.removeTodo} edit={this.props.editTodo} />
+          <TodoItem 
+            key={index}
+            {...todo}
+            removeTodo={this.props.removeTodo}
+            editTodo={this.props.editTodo}
+            toggleTodo={this.props.toggleTodo}
+          />
         ))}
       </TodoListWrapper>
     );

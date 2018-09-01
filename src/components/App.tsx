@@ -28,7 +28,7 @@ interface IAppState {
 }
 
 export default class App extends React.Component<{}, IAppState> {
-  constructor(props) {
+  constructor(props :{}) {
     super(props);
     this.state = {
       todos: [],
@@ -89,6 +89,24 @@ export default class App extends React.Component<{}, IAppState> {
   }
 
   /**
+   * Update a todo's status.
+   *
+   * @param todoId - todo id
+   * @private
+   * @memberof App
+   */
+  private toggleTodo = (todoId: number) => {
+    // copy current list of todos
+    const list = [...this.state.todos];
+    // get index of the current todo
+    const todoIndex = list.findIndex(todo => todo.id === todoId);
+    // update todo status
+    list[todoIndex].completed = !list[todoIndex].completed;
+
+    this.setState({ todos: list });
+  }
+
+  /**
    * Get the todo's saved in localstorage and pass them to the app's state
    *
    * @private
@@ -141,8 +159,13 @@ export default class App extends React.Component<{}, IAppState> {
     return (
       <Wrapper>
         <Header />
-        <AddTodo add={this.addTodo} />
-        <TodoList todos={this.state.todos} removeTodo={this.removeTodo} editTodo={this.editTodo} />
+        <AddTodo addTodo={this.addTodo} />
+        <TodoList
+          todos={this.state.todos}
+          removeTodo={this.removeTodo}
+          editTodo={this.editTodo}
+          toggleTodo={this.toggleTodo}
+        />
         <GithubCorner href='https://github.com/nip10/todo-react-ts' />
       </Wrapper>
     );

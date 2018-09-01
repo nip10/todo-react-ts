@@ -5,8 +5,14 @@ import TodoItemActions from './TodoItemActions';
 interface ITodoItemProps {
   text: string,
   id: number,
-  remove: (todoId: number) => void,
-  edit: (todoId: number, todoText: string) => void,
+  completed: boolean,
+  removeTodo: (todoId: number) => void,
+  editTodo: (todoId: number, todoText: string) => void,
+  toggleTodo: (todoId: number) => void,
+}
+
+interface ITodoItemWrapperProps {
+  completed?: boolean,
 }
 
 interface ITodoItemState {
@@ -19,6 +25,8 @@ const Wrapper = styled.li`
   display: inline-block;
   width: 100%;
   text-align: justify;
+  text-decoration: ${(props :ITodoItemWrapperProps) => props.completed ? 'line-through' : 'none'};
+  opacity: ${(props :ITodoItemWrapperProps) => props.completed ? '0.7' : '1'};
 `;
 
 const TodoText = styled.p`
@@ -47,7 +55,7 @@ export default class TodoItem extends React.Component<ITodoItemProps, ITodoItemS
       if (!todoRef.value.trim()) {
         return;
       }
-      this.props.edit(this.props.id, todoRef.value);
+      this.props.editTodo(this.props.id, todoRef.value);
       todoRef.value = '';
     }
     this.toggleIsEditing();
@@ -60,8 +68,8 @@ export default class TodoItem extends React.Component<ITodoItemProps, ITodoItemS
       </form>
       <TodoItemActions
         id={this.props.id}
-        removeTodo={this.props.remove}
-        editTodo={this.props.edit}
+        removeTodo={this.props.removeTodo}
+        editTodo={this.props.editTodo}
         isEditing={this.state.isEditing}
         toggleIsEditing={this.toggleIsEditing}
         textInput={this.textInput}
@@ -70,17 +78,17 @@ export default class TodoItem extends React.Component<ITodoItemProps, ITodoItemS
   )
 
   private renderNormalTodo = () => (
-    <Wrapper>
+    <Wrapper completed={this.props.completed}>
       <TodoText>
         {this.props.text}
       </TodoText>
       <TodoItemActions
         id={this.props.id}
-        removeTodo={this.props.remove}
-        editTodo={this.props.edit}
+        removeTodo={this.props.removeTodo}
+        editTodo={this.props.editTodo}
         isEditing={this.state.isEditing}
         toggleIsEditing={this.toggleIsEditing}
-        textInput={this.textInput}
+        toggleTodo={this.props.toggleTodo}
       />
     </Wrapper>
   )

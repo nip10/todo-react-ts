@@ -9,6 +9,7 @@ const {
 } = styledComponents as styledComponents.ThemedStyledComponentsModule<IThemeInterface>;
 
 export interface IThemeInterface {
+  backgroundColor: string,
   color0: string,
   color1: string,
   color2: string,
@@ -16,6 +17,7 @@ export interface IThemeInterface {
 }
 
 export const theme = {
+  backgroundColor: '#286DA8',
   color0: '#286DA8',
   color1: '#CD5360',
   color2: '#B37D4E',
