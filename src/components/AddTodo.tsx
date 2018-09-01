@@ -3,7 +3,7 @@ import styled from '../theme/index';
 
 interface ITodo {
   // id: number,
-  title: string,
+  text: string,
   completed: boolean,
 }
 
@@ -50,7 +50,7 @@ const AddTodo: React.SFC<IAddTodoProps> = props => {
       }
       props.add({
         completed: false,
-        title: todoRef.value,
+        text: todoRef.value,
       });
       todoRef.value = '';
     }
@@ -58,7 +58,7 @@ const AddTodo: React.SFC<IAddTodoProps> = props => {
 
   return (
     <Form onSubmit={onSubmitHandler}>
-      <Input type="text" innerRef={textInput} />
+      <Input type="text" placeholder="Task" innerRef={textInput} />
       <Button type="submit">
         Add Todo
         </Button>

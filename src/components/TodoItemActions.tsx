@@ -25,19 +25,47 @@ const RemoveButton = styled.button`
 
 interface ITodoItemActionsProps {
   id: number,
-  removeTodo: (todoId: number) => void
+  isEditing: boolean,
+  removeTodo: (todoId: number) => void,
+  editTodo: (todoId: number, todoText: string) => void,
+  toggleIsEditing: () => void,
+  textInput: React.RefObject<HTMLInputElement>
 }
 
 const TodoItemActions = (props: ITodoItemActionsProps) => {
+
   const removeTodoHandler = (e: React.MouseEvent<HTMLElement>): void => {
     props.removeTodo(props.id);
   }
-  return (
+
+  const editTodoHandler = (e: React.MouseEvent<HTMLElement>): void => {
+    e.preventDefault();
+    const todoRef = props.textInput.current;
+    if (todoRef) {
+      if (!todoRef.value.trim()) {
+        return;
+      }
+      props.editTodo(props.id, todoRef.value);
+      todoRef.value = '';
+    }
+    props.toggleIsEditing();
+  }
+
+  const renderEditAndRemoveButtons = () => (
     <Wrapper>
-      <EditButton>Edit</EditButton>
+      <EditButton onClick={props.toggleIsEditing}>Edit</EditButton>
       <RemoveButton onClick={removeTodoHandler}>Remove</RemoveButton>
     </Wrapper>
   )
+
+  const renderSaveAndCancelButtons = () => (
+    <Wrapper>
+      <EditButton onClick={editTodoHandler}>Save</EditButton>
+      <RemoveButton onClick={props.toggleIsEditing}>Cancel</RemoveButton>
+    </Wrapper>
+  )
+
+  return props.isEditing ? renderSaveAndCancelButtons() : renderEditAndRemoveButtons();
 };
 
 export default TodoItemActions;
