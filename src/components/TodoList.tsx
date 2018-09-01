@@ -2,15 +2,12 @@ import * as React from 'react';
 import styled from 'styled-components';
 import TodoItem from './TodoItem';
 
-interface ITodo {
-  id: number,
-  title: string,
-  completed: boolean,
-}
+import ITodo from './../types/todo';
 
 interface ITodoListProps {
   todos: ITodo[],
-  removeTodo: (todoId: number) => void
+  removeTodo: (todoId: number) => void,
+  editTodo: (todoId: number, todoText: string) => void,
 }
 
 const TodoListWrapper = styled.ul`
@@ -25,7 +22,7 @@ export default class TodoList extends React.Component<ITodoListProps, {}> {
     return (
       <TodoListWrapper>
         {todos.map((todo, index) => (
-          <TodoItem key={index} id={todo.id} title={todo.title} remove={this.props.removeTodo} />
+          <TodoItem key={index} id={todo.id} text={todo.text} remove={this.props.removeTodo} edit={this.props.editTodo} />
         ))}
       </TodoListWrapper>
     );

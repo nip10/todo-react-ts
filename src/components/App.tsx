@@ -6,10 +6,13 @@ import TodoList from './TodoList';
 import Header from './Header';
 import AddTodo from './AddTodo';
 
+import ITodo from './../types/todo';
+
 // tslint:disable-next-line:no-unused-expression
 injectGlobal`
 body {
   background-color: #286DA8;
+  font-family: 'Roboto', sans-serif;
 }`
 
 const Wrapper = styled.div`
@@ -17,21 +20,15 @@ const Wrapper = styled.div`
   max-width: 900px;
   background-color: white;
   padding: 1em;
-  font-family: 'Roboto', sans-serif;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, .3);
 `;
-
-interface ITodo {
-  id: number,
-  title: string,
-  completed: boolean,
-}
 
 interface IAppState {
   todos: ITodo[]
 }
 
 export default class App extends React.Component<{}, IAppState> {
-  constructor(props: {}) {
+  constructor(props) {
     super(props);
     this.state = {
       todos: [],
@@ -41,6 +38,7 @@ export default class App extends React.Component<{}, IAppState> {
   /**
    * Add a todo to app's state
    *
+   * @param newTodo - todo object (UPDATE THIS)
    * @private
    * @memberof App
    */
@@ -55,6 +53,13 @@ export default class App extends React.Component<{}, IAppState> {
     });
   }
 
+  /**
+   * Remove a todo from app's state.
+   *
+   * @param todoId - Todo id (UPDATE THIS)
+   * @private
+   * @memberof App
+   */
   private removeTodo = (todoId: number): void => {
     // copy current list of todos
     const list = [...this.state.todos];
@@ -62,6 +67,25 @@ export default class App extends React.Component<{}, IAppState> {
     const updatedTodos = list.filter(item => item.id !== todoId);
 
     this.setState({ todos: updatedTodos });
+  }
+
+  /**
+   * Update a todo's text.
+   *
+   * @param todoId - todo id
+   * @param todoText - todo text
+   * @private
+   * @memberof App
+   */
+  private editTodo = (todoId: number, todoText: string): void => {
+    // copy current list of todos
+    const list = [...this.state.todos];
+    // get index of the current todo
+    const todoIndex = list.findIndex(todo => todo.id === todoId);
+    // update todo
+    list[todoIndex].text = todoText;
+
+    this.setState({ todos: list });
   }
 
   /**
@@ -118,7 +142,7 @@ export default class App extends React.Component<{}, IAppState> {
       <Wrapper>
         <Header />
         <AddTodo add={this.addTodo} />
-        <TodoList todos={this.state.todos} removeTodo={this.removeTodo} />
+        <TodoList todos={this.state.todos} removeTodo={this.removeTodo} editTodo={this.editTodo} />
         <GithubCorner href='https://github.com/nip10/todo-react-ts' />
       </Wrapper>
     );
