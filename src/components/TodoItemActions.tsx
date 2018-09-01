@@ -1,25 +1,14 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCheck, faPen, faTimes, faSave } from '@fortawesome/free-solid-svg-icons'
 
 const Wrapper = styled.div`
   float: right;
 `;
 
-const EditButton = styled.button`
-  padding: 0.5em;
-  margin: 0.5em;
-  border: 1px solid black;
-  background-color: #B37D4E;
-  color: white;
-  cursor: pointer;
-`;
-
-const RemoveButton = styled.button`
-  padding: 0.5em;
-  margin: 0.5em;
-  border: 1px solid black;
-  background-color: #CD5360;
-  color: white;
+const IconWrapper = styled.span`
+  margin-right: 0.5em;
   cursor: pointer;
 `;
 
@@ -28,18 +17,27 @@ interface ITodoItemActionsProps {
   isEditing: boolean,
   removeTodo: (todoId: number) => void,
   editTodo: (todoId: number, todoText: string) => void,
+  toggleTodo?: (todoId: number) => void,
   toggleIsEditing: () => void,
-  textInput: React.RefObject<HTMLInputElement>
+  textInput?: React.RefObject<HTMLInputElement>,
 }
 
 const TodoItemActions = (props: ITodoItemActionsProps) => {
 
+  const toggleTodoHandler = (e: React.MouseEvent<HTMLElement>): void => {
+    e.preventDefault();
+    if (!props.toggleTodo) { return; }
+    props.toggleTodo(props.id);
+  }
+
   const removeTodoHandler = (e: React.MouseEvent<HTMLElement>): void => {
+    e.preventDefault();
     props.removeTodo(props.id);
   }
 
   const editTodoHandler = (e: React.MouseEvent<HTMLElement>): void => {
     e.preventDefault();
+    if (!props.textInput) { return; }
     const todoRef = props.textInput.current;
     if (todoRef) {
       if (!todoRef.value.trim()) {
@@ -53,15 +51,26 @@ const TodoItemActions = (props: ITodoItemActionsProps) => {
 
   const renderEditAndRemoveButtons = () => (
     <Wrapper>
-      <EditButton onClick={props.toggleIsEditing}>Edit</EditButton>
-      <RemoveButton onClick={removeTodoHandler}>Remove</RemoveButton>
+      <IconWrapper onClick={props.toggleIsEditing}>
+        <FontAwesomeIcon icon={faPen} color="grey" />
+      </IconWrapper>
+      <IconWrapper onClick={removeTodoHandler}>
+        <FontAwesomeIcon icon={faTimes} color="red"/>
+      </IconWrapper>
+      <IconWrapper onClick={toggleTodoHandler}>
+        <FontAwesomeIcon icon={faCheck} color="green" />
+      </IconWrapper>
     </Wrapper>
   )
 
   const renderSaveAndCancelButtons = () => (
     <Wrapper>
-      <EditButton onClick={editTodoHandler}>Save</EditButton>
-      <RemoveButton onClick={props.toggleIsEditing}>Cancel</RemoveButton>
+      <IconWrapper onClick={editTodoHandler}>
+        <FontAwesomeIcon icon={faSave} color="grey" />
+      </IconWrapper>
+      <IconWrapper onClick={props.toggleIsEditing}>
+        <FontAwesomeIcon icon={faTimes} color="red"/>
+      </IconWrapper>
     </Wrapper>
   )
 

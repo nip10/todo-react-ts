@@ -8,7 +8,7 @@ interface ITodo {
 }
 
 interface IAddTodoProps {
-  add: (newTodo: ITodo) => void
+  addTodo: (newTodo: ITodo) => void
 }
 
 const Input = styled.input`
@@ -48,7 +48,7 @@ const AddTodo: React.SFC<IAddTodoProps> = props => {
       if (!todoRef.value.trim()) {
         return;
       }
-      props.add({
+      props.addTodo({
         completed: false,
         text: todoRef.value,
       });
@@ -61,7 +61,7 @@ const AddTodo: React.SFC<IAddTodoProps> = props => {
       <Input type="text" placeholder="Task" innerRef={textInput} />
       <Button type="submit">
         Add Todo
-        </Button>
+      </Button>
     </Form>
   )
 }
