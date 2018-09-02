@@ -46,7 +46,7 @@ export default class TodoItem extends React.Component<ITodoItemProps, ITodoItemS
   private textInput: React.RefObject<HTMLInputElement>;
 
   private toggleIsEditing = () => {
-    this.setState({ isEditing: !this.state.isEditing });
+    this.setState(prevState => ({ isEditing: !prevState.isEditing }));
   }
 
   private onSubmitHandler = (e: React.FormEvent<EventTarget>): void => {
