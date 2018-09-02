@@ -1,5 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
+// import { colors } from '../theme/index';
 import TodoItemActions from './TodoItemActions';
 
 interface ITodoItemProps {
@@ -25,8 +26,8 @@ const Wrapper = styled.li`
   display: inline-block;
   width: 100%;
   text-align: justify;
-  text-decoration: ${(props :ITodoItemWrapperProps) => props.completed ? 'line-through' : 'none'};
-  opacity: ${(props :ITodoItemWrapperProps) => props.completed ? '0.7' : '1'};
+  text-decoration: ${(props: ITodoItemWrapperProps) => props.completed ? 'line-through' : 'none'};
+  opacity: ${(props: ITodoItemWrapperProps) => props.completed ? '0.7' : '1'};
 `;
 
 const TodoText = styled.p`
@@ -61,6 +62,12 @@ export default class TodoItem extends React.Component<ITodoItemProps, ITodoItemS
     this.toggleIsEditing();
   }
 
+  /**
+   * Render for editing mode
+   *
+   * @private
+   * @memberof TodoItem
+   */
   private renderEditingTodo = () => (
     <Wrapper>
       <form onSubmit={this.onSubmitHandler}>
@@ -77,6 +84,12 @@ export default class TodoItem extends React.Component<ITodoItemProps, ITodoItemS
     </Wrapper>
   )
 
+  /**
+   * Render for normal mode
+   *
+   * @private
+   * @memberof TodoItem
+   */
   private renderNormalTodo = () => (
     <Wrapper completed={this.props.completed}>
       <TodoText>

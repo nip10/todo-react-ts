@@ -1,7 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import TodoItem from './TodoItem';
-
 import ITodo from './../types/todo';
 
 interface ITodoListProps {
@@ -23,7 +22,7 @@ export default class TodoList extends React.Component<ITodoListProps, {}> {
     return (
       <TodoListWrapper>
         {todos.map((todo, index) => (
-          <TodoItem 
+          <TodoItem
             key={index}
             {...todo}
             removeTodo={this.props.removeTodo}
