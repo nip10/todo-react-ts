@@ -1,5 +1,6 @@
 import * as React from 'react';
-import styled from '../theme/index';
+import styled from 'styled-components';
+import { colors } from '../theme/index';
 
 interface ITodo {
   // id: number,
@@ -14,7 +15,7 @@ interface IAddTodoProps {
 const Input = styled.input`
   padding: 0.5em;
   margin: 0.5em;
-  border: 1px solid #286DA8;
+  border: 1px solid ${colors.backgroundColor};
   width: 82%;
 `;
 
@@ -23,7 +24,7 @@ const Button = styled.button`
   margin: 0.5em;
   border: 1px solid black;
   width: 11%;
-  background-color: #286DA8;
+  background-color: ${colors.backgroundColor};
   color: white;
 `;
 

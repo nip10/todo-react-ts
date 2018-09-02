@@ -1,17 +1,18 @@
 import * as React from 'react';
 import * as _ from 'lodash';
+// import styled, { injectGlobal, colors } from './../theme/index';
 import styled, { injectGlobal } from 'styled-components';
+import { colors } from '../theme/index';
 import GithubCorner from 'react-github-corner';
 import TodoList from './TodoList';
 import Header from './Header';
 import AddTodo from './AddTodo';
-
 import ITodo from './../types/todo';
 
 // tslint:disable-next-line:no-unused-expression
 injectGlobal`
 body {
-  background-color: #286DA8;
+  background-color: ${colors.backgroundColor};
   font-family: 'Roboto', sans-serif;
 }`
 
@@ -28,7 +29,7 @@ interface IAppState {
 }
 
 export default class App extends React.Component<{}, IAppState> {
-  constructor(props :{}) {
+  constructor(props: {}) {
     super(props);
     this.state = {
       todos: [],

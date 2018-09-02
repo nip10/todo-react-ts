@@ -55,7 +55,7 @@ const TodoItemActions = (props: ITodoItemActionsProps) => {
         <FontAwesomeIcon icon={faPen} color="grey" />
       </IconWrapper>
       <IconWrapper onClick={removeTodoHandler}>
-        <FontAwesomeIcon icon={faTimes} color="red"/>
+        <FontAwesomeIcon icon={faTimes} color="red" />
       </IconWrapper>
       <IconWrapper onClick={toggleTodoHandler}>
         <FontAwesomeIcon icon={faCheck} color="green" />
@@ -69,7 +69,7 @@ const TodoItemActions = (props: ITodoItemActionsProps) => {
         <FontAwesomeIcon icon={faSave} color="grey" />
       </IconWrapper>
       <IconWrapper onClick={props.toggleIsEditing}>
-        <FontAwesomeIcon icon={faTimes} color="red"/>
+        <FontAwesomeIcon icon={faTimes} color="red" />
       </IconWrapper>
     </Wrapper>
   )
