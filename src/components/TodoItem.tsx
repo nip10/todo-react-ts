@@ -1,6 +1,5 @@
-import * as React from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
-// import { colors } from '../theme/index';
 import TodoItemActions from './TodoItemActions';
 
 interface ITodoItemProps {
@@ -34,7 +33,7 @@ const TodoText = styled.p`
   margin: 0;
 `;
 
-export default class TodoItem extends React.Component<ITodoItemProps, ITodoItemState> {
+export default class TodoItem extends Component<ITodoItemProps, ITodoItemState> {
   constructor(props: ITodoItemProps) {
     super(props);
     this.state = {
