@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
 import TodoItem from './TodoItem';
 import ITodo from './../types/todo';
@@ -17,7 +17,7 @@ const TodoListWrapper = styled.ul`
   border-top: 1px solid #e6e6e6;
 `
 
-export default class TodoList extends React.Component<ITodoListProps, {}> {
+export default class TodoList extends Component<ITodoListProps, {}> {
   private renderTodoItems = (todos: ITodo[]) => {
     return (
       <TodoListWrapper>

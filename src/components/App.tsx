@@ -1,6 +1,5 @@
-import * as React from 'react';
-import * as _ from 'lodash';
-// import styled, { injectGlobal, colors } from './../theme/index';
+import React, { Component } from 'react';
+import get from 'lodash/get';
 import styled, { injectGlobal } from 'styled-components';
 import { colors } from '../theme/index';
 import GithubCorner from 'react-github-corner';
@@ -28,7 +27,7 @@ interface IAppState {
   todos: ITodo[]
 }
 
-export default class App extends React.Component<{}, IAppState> {
+export default class App extends Component<{}, IAppState> {
   constructor(props: {}) {
     super(props);
     this.state = {
@@ -45,7 +44,7 @@ export default class App extends React.Component<{}, IAppState> {
    */
   private addTodo = (newTodo: ITodo): void => {
     // Create a new id by incrementing the last saved todo id
-    const newTodoId = _.get(this.state.todos[this.state.todos.length - 1], 'id', 0) + 1;
+    const newTodoId = get(this.state.todos[this.state.todos.length - 1], 'id', 0) + 1;
     newTodo.id = newTodoId;
     // Merge the new todo with the current todo list
     const todos = this.state.todos.concat(newTodo);
