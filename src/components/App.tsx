@@ -1,12 +1,13 @@
+import GithubCorner from 'react-github-corner';
 import React, { Component } from 'react';
 import get from 'lodash/get';
+import format from 'date-fns/format'
 import styled, { injectGlobal } from 'styled-components';
-import { colors } from '../theme/index';
-import GithubCorner from 'react-github-corner';
 import TodoList from './TodoList';
 import Header from './Header';
 import AddTodo from './AddTodo';
-import ITodo from './../types/todo';
+import { colors } from '../theme/index';
+import { ITodo } from './../types/todo';
 
 // tslint:disable-next-line:no-unused-expression
 injectGlobal`
@@ -42,10 +43,15 @@ export default class App extends Component<{}, IAppState> {
    * @private
    * @memberof App
    */
-  private addTodo = (newTodo: ITodo): void => {
+  private addTodo = (todoText: string): void => {
     // Create a new id by incrementing the last saved todo id
     const newTodoId = get(this.state.todos[this.state.todos.length - 1], 'id', 0) + 1;
-    newTodo.id = newTodoId;
+    const newTodo = {
+      id: newTodoId,
+      text: todoText,
+      completed: false,
+      createdAt: format(new Date(), 'DD-MM-YYYY HH:mm'),
+    }
     // Merge the new todo with the current todo list
     const todos = this.state.todos.concat(newTodo);
     this.setState({
@@ -84,6 +90,7 @@ export default class App extends Component<{}, IAppState> {
     const todoIndex = list.findIndex(todo => todo.id === todoId);
     // update todo
     list[todoIndex].text = todoText;
+    list[todoIndex].updatedAt = format(new Date(), 'DD-MM-YYYY HH:mm');
 
     this.setState({ todos: list });
   }
@@ -154,6 +161,7 @@ export default class App extends Component<{}, IAppState> {
     // saves if component has a chance to unmount
     this.saveStateToLocalStorage();
   }
+
 
   public render() {
     return (

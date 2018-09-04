@@ -2,13 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { colors } from '../theme/index';
 
-interface ITodo {
-  text: string,
-  completed: boolean,
-}
-
 interface IAddTodoProps {
-  addTodo: (newTodo: ITodo) => void
+  addTodo: (todoText: string) => void
 }
 
 const Input = styled.input`
@@ -48,10 +43,7 @@ const AddTodo: React.SFC<IAddTodoProps> = props => {
       if (!todoRef.value.trim()) {
         return;
       }
-      props.addTodo({
-        completed: false,
-        text: todoRef.value,
-      });
+      props.addTodo(todoRef.value);
       todoRef.value = '';
     }
   }

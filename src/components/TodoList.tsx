@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import TodoItem from './TodoItem';
-import ITodo from './../types/todo';
+import { ITodo } from './../types/todo';
 
 interface ITodoListProps {
   todos: ITodo[],
@@ -28,8 +28,8 @@ export default class TodoList extends Component<ITodoListProps, {}> {
             removeTodo={this.props.removeTodo}
             editTodo={this.props.editTodo}
             toggleTodo={this.props.toggleTodo}
-          />
-        ))}
+          />)
+        )}
       </TodoListWrapper>
     );
   }
