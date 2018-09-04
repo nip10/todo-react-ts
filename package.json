@@ -7,6 +7,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.3.1",
     "@fortawesome/react-fontawesome": "^0.1.2",
     "axios": "^0.18.0",
+    "date-fns": "^1.29.0",
     "lodash": "^4.17.10",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
@@ -22,6 +23,7 @@
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
+    "@types/date-fns": "^2.6.0",
     "@types/jest": "^23.3.1",
     "@types/lodash": "^4.14.116",
     "@types/node": "^10.9.2",
