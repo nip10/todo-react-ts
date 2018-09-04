@@ -1,8 +1,7 @@
 import GithubCorner from 'react-github-corner';
 import React, { Component } from 'react';
-import get from 'lodash/get';
-import format from 'date-fns/format'
 import styled, { injectGlobal } from 'styled-components';
+import { Todos } from '../models/todos';
 import TodoList from './TodoList';
 import Header from './Header';
 import AddTodo from './AddTodo';
@@ -32,7 +31,7 @@ export default class App extends Component<{}, IAppState> {
   constructor(props: {}) {
     super(props);
     this.state = {
-      todos: [],
+      todos: Todos.items,
     }
   }
 
@@ -43,20 +42,9 @@ export default class App extends Component<{}, IAppState> {
    * @private
    * @memberof App
    */
-  private addTodo = (todoText: string): void => {
-    // Create a new id by incrementing the last saved todo id
-    const newTodoId = get(this.state.todos[this.state.todos.length - 1], 'id', 0) + 1;
-    const newTodo = {
-      id: newTodoId,
-      text: todoText,
-      completed: false,
-      createdAt: format(new Date(), 'DD-MM-YYYY HH:mm'),
-    }
-    // Merge the new todo with the current todo list
-    const todos = this.state.todos.concat(newTodo);
-    this.setState({
-      todos
-    });
+  private addTodo = (task: string): void => {
+    Todos.add(task);
+    this.setState({ todos: Todos.items });
   }
 
   /**
@@ -67,32 +55,21 @@ export default class App extends Component<{}, IAppState> {
    * @memberof App
    */
   private removeTodo = (todoId: number): void => {
-    // copy current list of todos
-    const list = [...this.state.todos];
-    // filter out the item being deleted
-    const updatedTodos = list.filter(item => item.id !== todoId);
-
-    this.setState({ todos: updatedTodos });
+    Todos.remove(todoId);
+    this.setState({ todos: Todos.items });
   }
 
   /**
    * Update a todo's text.
    *
    * @param todoId - todo id
-   * @param todoText - todo text
+   * @param task - todo text
    * @private
    * @memberof App
    */
-  private editTodo = (todoId: number, todoText: string): void => {
-    // copy current list of todos
-    const list = [...this.state.todos];
-    // get index of the current todo
-    const todoIndex = list.findIndex(todo => todo.id === todoId);
-    // update todo
-    list[todoIndex].text = todoText;
-    list[todoIndex].updatedAt = format(new Date(), 'DD-MM-YYYY HH:mm');
-
-    this.setState({ todos: list });
+  private editTodo = (todoId: number, task: string): void => {
+    Todos.update(todoId, task);
+    this.setState({ todos: Todos.items });
   }
 
   /**
@@ -103,34 +80,8 @@ export default class App extends Component<{}, IAppState> {
    * @memberof App
    */
   private toggleTodo = (todoId: number) => {
-    // copy current list of todos
-    const list = [...this.state.todos];
-    // get index of the current todo
-    const todoIndex = list.findIndex(todo => todo.id === todoId);
-    // update todo status
-    list[todoIndex].completed = !list[todoIndex].completed;
-
-    this.setState({ todos: list });
-  }
-
-  /**
-   * Get the todo's saved in localstorage and pass them to the app's state
-   *
-   * @private
-   * @memberof App
-   */
-  private hydrateStateWithLocalStorage = (): void => {
-    if (localStorage.hasOwnProperty('todos')) {
-      const todos = localStorage.getItem('todos');
-      if (todos) {
-        try {
-          const parsedTodos = JSON.parse(todos);
-          this.setState({ todos: parsedTodos });
-        } catch (e) {
-          this.setState({ todos: [] });
-        }
-      }
-    }
+    Todos.toggle(todoId);
+    this.setState({ todos: Todos.items });
   }
 
   /**
@@ -140,11 +91,12 @@ export default class App extends Component<{}, IAppState> {
    * @memberof App
    */
   private saveStateToLocalStorage = (): void => {
-    localStorage.setItem('todos', JSON.stringify(this.state.todos));
+    Todos.save();
   }
 
   public componentDidMount = (): void => {
-    this.hydrateStateWithLocalStorage();
+    Todos.populate();
+    this.setState({ todos: Todos.items });
     // add event listener to save state to localStorage
     // when user leaves/refreshes the page
     window.addEventListener(

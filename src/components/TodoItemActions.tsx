@@ -3,6 +3,16 @@ import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck, faPen, faTimes, faSave } from '@fortawesome/free-solid-svg-icons'
 
+interface ITodoItemActionsProps {
+  id: number,
+  isEditing: boolean,
+  removeTodo: (todoId: number) => void,
+  editTodo: (todoId: number, task: string) => void,
+  toggleTodo?: (todoId: number) => void,
+  toggleIsEditing: () => void,
+  textInput?: React.RefObject<HTMLInputElement>,
+}
+
 const Wrapper = styled.div`
   float: right;
 `;
@@ -11,16 +21,6 @@ const IconWrapper = styled.span`
   margin-right: 0.5em;
   cursor: pointer;
 `;
-
-interface ITodoItemActionsProps {
-  id: number,
-  isEditing: boolean,
-  removeTodo: (todoId: number) => void,
-  editTodo: (todoId: number, todoText: string) => void,
-  toggleTodo?: (todoId: number) => void,
-  toggleIsEditing: () => void,
-  textInput?: React.RefObject<HTMLInputElement>,
-}
 
 const TodoItemActions = (props: ITodoItemActionsProps) => {
 
