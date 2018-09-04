@@ -42,8 +42,8 @@ export default class App extends Component<{}, IAppState> {
    * @private
    * @memberof App
    */
-  private addTodo = (task: string): void => {
-    Todos.add(task);
+  private addTodo = (text: string): void => {
+    Todos.add(text);
     this.setState({ todos: Todos.items });
   }
 
@@ -63,12 +63,12 @@ export default class App extends Component<{}, IAppState> {
    * Update a todo's text.
    *
    * @param todoId - todo id
-   * @param task - todo text
+   * @param text - todo text
    * @private
    * @memberof App
    */
-  private editTodo = (todoId: number, task: string): void => {
-    Todos.update(todoId, task);
+  private editTodo = (todoId: number, text: string): void => {
+    Todos.update(todoId, text);
     this.setState({ todos: Todos.items });
   }
 

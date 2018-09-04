@@ -6,7 +6,7 @@ import { ITodo } from './../types/todo';
 interface ITodoListProps {
   todos: ITodo[],
   removeTodo: (todoId: number) => void,
-  editTodo: (todoId: number, task: string) => void,
+  editTodo: (todoId: number, text: string) => void,
   toggleTodo: (todoId: number) => void,
 }
 
