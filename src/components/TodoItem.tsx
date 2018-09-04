@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import TodoItemActions from './TodoItemActions';
+import { ITodo } from './../types/todo';
 
-interface ITodoItemProps {
-  text: string,
-  id: number,
-  completed: boolean,
+interface ITodoItemProps extends ITodo {
   removeTodo: (todoId: number) => void,
   editTodo: (todoId: number, todoText: string) => void,
   toggleTodo: (todoId: number) => void,
