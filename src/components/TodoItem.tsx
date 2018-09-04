@@ -68,6 +68,23 @@ export default class TodoItem extends Component<ITodoItemProps, ITodoItemState> 
   }
 
   /**
+   * Render the timestamp of the creation/update of the todo
+   *
+   * @private
+   * @memberof TodoItem
+   * @return React Element
+   */
+  private renderTimestamp = () => {
+    let timestampMessage;
+    if (this.props.updatedAt) {
+      timestampMessage = this.props.updatedAt + ' - edited';
+    } else {
+      timestampMessage = this.props.createdAt;
+    }
+    return <TodoTimestamp>{timestampMessage}</TodoTimestamp>
+  }
+
+  /**
    * Render for editing mode
    *
    * @private
@@ -97,9 +114,10 @@ export default class TodoItem extends Component<ITodoItemProps, ITodoItemState> 
    */
   private renderNormalTodo = () => (
     <Wrapper completed={this.props.completed}>
-      <TodoText>
+      <TodoText >
         {this.props.text}
       </TodoText>
+      {this.renderTimestamp()}
       <TodoItemActions
         id={this.props.id}
         removeTodo={this.props.removeTodo}
