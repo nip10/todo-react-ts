@@ -23,12 +23,20 @@ const Wrapper = styled.li`
   display: inline-block;
   width: 100%;
   text-align: justify;
-  text-decoration: ${(props: ITodoItemWrapperProps) => props.completed ? 'line-through' : 'none'};
-  opacity: ${(props: ITodoItemWrapperProps) => props.completed ? '0.7' : '1'};
+  /* There's no need to select the icons because they are svg's which are not affected by text-decoration */
+  > :not(span) {
+    text-decoration: ${(props: ITodoItemWrapperProps) => props.completed ? 'line-through' : 'none'};
+    opacity: ${(props: ITodoItemWrapperProps) => props.completed ? '0.7' : '1'};
+  }
 `;
 
 const TodoText = styled.p`
   margin: 0;
+`;
+
+const TodoTimestamp = styled.span`
+  font-size: 0.7em;
+  color: rgba(0, 0, 0, 0.6);
 `;
 
 export default class TodoItem extends Component<ITodoItemProps, ITodoItemState> {

@@ -11,6 +11,10 @@ const Input = styled.input`
   margin: 0.5em;
   border: 1px solid ${colors.backgroundColor};
   width: 82%;
+  @media (max-width: 576px) {
+    display: block;
+    width: calc(100% - 2em);
+  }
 `;
 
 const Button = styled.button`
@@ -20,6 +24,11 @@ const Button = styled.button`
   width: 11%;
   background-color: ${colors.backgroundColor};
   color: white;
+  cursor: pointer;
+  @media (max-width: 576px) {
+    display: block;
+    width: calc(100% - 1em);
+  }
 `;
 
 const Form = styled.form`
