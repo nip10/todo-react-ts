@@ -5,7 +5,7 @@ import { ITodo } from './../types/todo';
 
 interface ITodoItemProps extends ITodo {
   removeTodo: (todoId: number) => void,
-  editTodo: (todoId: number, task: string) => void,
+  editTodo: (todoId: number, text: string) => void,
   toggleTodo: (todoId: number) => void,
 }
 
@@ -93,7 +93,7 @@ export default class TodoItem extends Component<ITodoItemProps, ITodoItemState> 
   private renderEditingTodo = () => (
     <Wrapper>
       <form onSubmit={this.onSubmitHandler}>
-        <input type="text" defaultValue={this.props.task} ref={this.textInput} autoFocus={true} />
+        <input type="text" defaultValue={this.props.text} ref={this.textInput} autoFocus={true} />
       </form>
       <TodoItemActions
         id={this.props.id}
@@ -115,7 +115,7 @@ export default class TodoItem extends Component<ITodoItemProps, ITodoItemState> 
   private renderNormalTodo = () => (
     <Wrapper completed={this.props.completed}>
       <TodoText >
-        {this.props.task}
+        {this.props.text}
       </TodoText>
       {this.renderTimestamp()}
       <TodoItemActions
