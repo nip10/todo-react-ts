@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { colors } from '../theme/index';
 
 interface IAddTodoProps {
-  addTodo: (todoText: string) => void
+  addTodo: (task: string) => void
 }
 
 const Input = styled.input`
