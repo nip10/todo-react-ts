@@ -12,7 +12,9 @@
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "react-github-corner": "^2.3.0",
+    "react-redux": "^5.0.7",
     "react-scripts-ts": "2.17.0",
+    "redux": "^4.0.0",
     "styled-components": "^3.4.5"
   },
   "homepage": "https://p.dcdev.pt/todo",
@@ -30,6 +32,7 @@
     "@types/node": "^10.9.2",
     "@types/react": "^16.4.12",
     "@types/react-dom": "^16.0.7",
+    "@types/react-redux": "^6.0.9",
     "typescript": "^3.0.1"
   }
 }
