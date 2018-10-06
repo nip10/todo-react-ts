@@ -1,0 +1,46 @@
+✔ Move todo's state to app.tsx @critical @done(18-08-30 13:24)
+  This should be handled on the app component since its basically what the app is about
+  What would be the solution in more complex apps ? HOC ? Container ? Check examples
+✔ Add type to onAdd prop function @done(18-09-02 19:34)
+  I've set "noImplicitAny": false for now to be able to see the results.
+✔ Remove userId from todo's model @done(18-08-30 17:05)
+✔ Todo id must be set in App component so that we increment the last todo id @done(18-08-30 17:05)
+✔ Check if saveStateToLocalStorage is called twice on page reload @done(18-09-03 21:46)
+  One time via event beforeunload and another time in componentwillunmount
+  - Getting the todos from localstorage via componentDidMount will trigger a re-render
+  Although it's not noticable for the user, it may be unnecessary and may cause performance issues
+  https://reactjs.org/docs/react-component.html#componentdidmount
+✔ Add onclick event to the buttons in renderSaveAndCancelButtons @done(18-09-01 14:00)
+✘ toggleIsEditing and textInput is not needed in both renders() @cancelled (9/1/2018, 10:44:33 PM)
+✘ Rename EditButton and RemoveButton @cancelled (9/1/2018, 11:35:15 PM)
+  Replaced both buttons by fa icons
+✘ Change editTodo functions to accept an object and merge it with the todo object @cancelled (9/2/2018, 12:16:46 AM)
+  I've just created a different function to toggle a todo
+✔ Bug: When the app starts, the todo item's dont have any text @critical @done(18-09-02 20:43)
+✔ Create a class todos (in models/todos) @done(18-09-04 17:22)
+  Since im going to add more code when I implement the DB, this is a good idea to make the code more readable and clean
+✔ Add completedAt timestamp when a todo is toggled @done(18-09-04 21:17)
+✔ Replace task by text @done(18-09-04 21:17)
+
+Roadmap:
+✔ v1 - Implement actions and styles (using localstorage)
+  ✔ When the page loads, check if there are todo's in localstorage @done(18-08-30 17:05)
+    ✔ If yes, add them to the UI @done(18-08-30 17:05)
+    ✔ If not, show a message "Add your first todo !" @done(18-08-30 17:05)
+  ✔ Actions: @done (9/2/2018, 12:14:20 AM)
+    ✔ Add todo @done(18-08-30 17:05)
+      ✔ Save to localstorage @done(18-08-30 17:05)
+    ✔ Remove todo @done(18-09-01 13:56)
+      ✔ Save to localstorage @done(18-09-01 13:56)
+    ✔ Edit todo @done (9/1/2018, 10:43:17 PM)
+      ✔ Save to localstorage @done (9/1/2018, 10:43:18 PM)
+    ✔ Toggle todo (completed) @done (9/2/2018, 12:14:17 AM)
+      ✔ Save to localstorage @done (9/2/2018, 12:14:19 AM)
+  ✔ Add timestamps to todo's @done(18-09-04 02:14)
+  ✔ Add 'edited' flag to edited todo's @done(18-09-04 02:14)
+  ✔ Styles @done(18-09-03 21:46)
+    ✔ Add styled components @done(18-08-30 18:42)
+    ✘ Add 2 themes (light and dark) @cancelled(18-09-01 13:57)
+    ✔ Make color variables @done(18-09-03 21:46)
+    ✔ Add responsiveness @done(18-09-04 02:14)
+    ✘ Add animations to actions @cancelled(18-09-04 02:14)
