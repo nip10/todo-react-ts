@@ -2,7 +2,7 @@ import format from 'date-fns/format';
 import get from 'lodash/get';
 import { ITodo } from './../types/todo';
 
-export default interface ITodos {
+export interface ITodos {
   items: ITodo[],
   populate: () => void,
   toggle: (todoId: number) => void,
@@ -12,7 +12,7 @@ export default interface ITodos {
   save: () => void,
 }
 
-export const Todos: ITodos = {
+const Todos: ITodos = {
   items: [],
   populate() {
     if (localStorage.hasOwnProperty('todos')) {
@@ -55,3 +55,5 @@ export const Todos: ITodos = {
     localStorage.setItem('todos', JSON.stringify(this.items));
   },
 }
+
+export default Todos;
