@@ -1,10 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+import { connect } from "react-redux";
+import { addTodo } from "../store/actions/todo";
 import { colors } from '../theme/index';
-
-interface IAddTodoProps {
-  addTodo: (text: string) => void
-}
 
 const Input = styled.input`
   padding: 0.5em;
@@ -35,7 +33,7 @@ const Form = styled.form`
   padding: 1em 0;
 `;
 
-const AddTodo: React.SFC<IAddTodoProps> = props => {
+const AddTodo = ({ dispatch }: any) => {
 
   const textInput: React.RefObject<HTMLInputElement> = React.createRef();
 
@@ -52,7 +50,7 @@ const AddTodo: React.SFC<IAddTodoProps> = props => {
       if (!todoRef.value.trim()) {
         return;
       }
-      props.addTodo(todoRef.value);
+      dispatch(addTodo(todoRef.value));
       todoRef.value = '';
     }
   }
@@ -67,4 +65,4 @@ const AddTodo: React.SFC<IAddTodoProps> = props => {
   )
 }
 
-export default AddTodo;
+export default connect()(AddTodo);
