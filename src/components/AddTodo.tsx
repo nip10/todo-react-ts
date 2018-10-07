@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { connect } from "react-redux";
-import { addTodo } from "../store/actions/todo";
-import { colors } from '../theme/index';
+import { connect } from 'react-redux';
+import { addTodo } from './../store/actions/todo';
+import { colors } from './../theme';
 
 const Input = styled.input`
   padding: 0.5em;
@@ -33,7 +33,7 @@ const Form = styled.form`
   padding: 1em 0;
 `;
 
-const AddTodo = ({ dispatch }: any) => {
+const AddTodo = (props: any) => {
 
   const textInput: React.RefObject<HTMLInputElement> = React.createRef();
 
@@ -45,12 +45,13 @@ const AddTodo = ({ dispatch }: any) => {
    */
   const onSubmitHandler = (e: React.FormEvent<EventTarget>): void => {
     e.preventDefault();
+    const { dAddTodo } = props;
     const todoRef = textInput.current;
     if (todoRef) {
       if (!todoRef.value.trim()) {
         return;
       }
-      dispatch(addTodo(todoRef.value));
+      dAddTodo(todoRef.value);
       todoRef.value = '';
     }
   }
@@ -65,4 +66,12 @@ const AddTodo = ({ dispatch }: any) => {
   )
 }
 
-export default connect()(AddTodo);
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    dAddTodo: (text: string) => {
+      dispatch(addTodo(text))
+    }
+  };
+};
+
+export default connect(null, mapDispatchToProps)(AddTodo);

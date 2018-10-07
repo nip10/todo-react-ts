@@ -14,7 +14,7 @@ interface ITodoItemState {
 }
 
 interface ITodoItemProps extends ITodo {
-  editTodo: (id: number, text: string) => void,
+  dEditTodo: (id: number, text: string) => void,
 }
 
 const Wrapper = styled.li`
@@ -57,11 +57,14 @@ class TodoItem extends Component<ITodoItemProps, ITodoItemState> {
   private onSubmitHandler = (e: React.FormEvent<EventTarget>): void => {
     e.preventDefault();
     const todoRef = this.textInput.current;
+    const { dEditTodo, id, text } = this.props;
     if (todoRef) {
       if (!todoRef.value.trim()) {
         return;
       }
-      this.props.editTodo(this.props.id, todoRef.value);
+      if (text !== todoRef.value) {
+        dEditTodo(id, todoRef.value);
+      }
       todoRef.value = '';
     }
     this.toggleIsEditing();
@@ -76,10 +79,11 @@ class TodoItem extends Component<ITodoItemProps, ITodoItemState> {
    */
   private renderTimestamp = () => {
     let timestampMessage;
-    if (this.props.updatedAt) {
-      timestampMessage = `${this.props.updatedAt} - edited`;
+    const { createdAt, updatedAt } = this.props;
+    if (updatedAt) {
+      timestampMessage = `${updatedAt} - edited`;
     } else {
-      timestampMessage = this.props.createdAt;
+      timestampMessage = createdAt;
     }
     return <TodoTimestamp>{timestampMessage}</TodoTimestamp>
   }
@@ -90,19 +94,23 @@ class TodoItem extends Component<ITodoItemProps, ITodoItemState> {
    * @private
    * @memberof TodoItem
    */
-  private renderEditingTodo = () => (
-    <Wrapper>
-      <form onSubmit={this.onSubmitHandler}>
-        <input type="text" defaultValue={this.props.text} ref={this.textInput} autoFocus={true} />
-      </form>
-      <TodoItemActions
-        id={this.props.id}
-        isEditing={this.state.isEditing}
-        toggleIsEditing={this.toggleIsEditing}
-        textInput={this.textInput}
-      />
-    </Wrapper>
-  )
+  private renderEditingTodo = () => {
+    const { id, text } = this.props;
+    return (
+      <Wrapper>
+        <form onSubmit={this.onSubmitHandler}>
+          <input type="text" defaultValue={text} ref={this.textInput} autoFocus={true} />
+        </form>
+        <TodoItemActions
+          id={id}
+          text={text}
+          isEditing={this.state.isEditing}
+          toggleIsEditing={this.toggleIsEditing}
+          textInput={this.textInput}
+        />
+      </Wrapper>
+    )
+  }
 
   /**
    * Render for normal mode
@@ -110,19 +118,22 @@ class TodoItem extends Component<ITodoItemProps, ITodoItemState> {
    * @private
    * @memberof TodoItem
    */
-  private renderNormalTodo = () => (
-    <Wrapper completed={this.props.completed}>
-      <TodoText >
-        {this.props.text}
-      </TodoText>
-      {this.renderTimestamp()}
-      <TodoItemActions
-        id={this.props.id}
-        isEditing={this.state.isEditing}
-        toggleIsEditing={this.toggleIsEditing}
-      />
-    </Wrapper>
-  )
+  private renderNormalTodo = () => {
+    const { id, text, completed } = this.props;
+    return (
+      <Wrapper completed={completed}>
+        <TodoText >
+          {text}
+        </TodoText>
+        {this.renderTimestamp()}
+        <TodoItemActions
+          id={id}
+          isEditing={this.state.isEditing}
+          toggleIsEditing={this.toggleIsEditing}
+        />
+      </Wrapper>
+    )
+  }
 
   public render() {
     const { isEditing } = this.state;
@@ -132,7 +143,7 @@ class TodoItem extends Component<ITodoItemProps, ITodoItemState> {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    editTodo: (id: number, text: string) => {
+    dEditTodo: (id: number, text: string) => {
       dispatch(editTodo(id, text))
     }
   };
