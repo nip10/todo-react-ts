@@ -1,6 +1,19 @@
+NOW:
+  ☐ Add types to stuff that has :any
+  ☐ Remove 'dispatch' from props ?
+  ☐ Check 'connect' synthax
+
 Roadmap:
   ☐ v2 - Add redux @today
-    ☐ Create actions/reducers/whatever for adding/editing/removing/toggling a todo
+    ☐ Create actions/reducers
+      ✔ Add todo @done(18-10-06 22:54)
+      ✔ Delete todo @done(18-10-06 22:54)
+      ☐ Toggle todo
+      ☐ Edit todo
+    ☐ Persist data (redux-persist)
+      https://www.npmjs.com/package/redux-persist
+      from dan ab:
+        https://egghead.io/lessons/javascript-redux-persisting-the-state-to-the-local-storage?course=building-react-applications-with-idiomatic-redux
   ☐ v3 - Add todo-api
     ☐ Add authentication
       - This HAS to be the 1st step on adding the api because we can't do anything without being authenticated
@@ -27,7 +40,7 @@ Deploy:
   ☐ Add google analytics @low
     ☐ Look for a react component to get extra data ?
 
-☐ Code snippet for axios
+    ☐ Code snippet for axios
   interface Ifoo {
     data: {
       todos: ITodoApi[],

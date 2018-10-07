@@ -12,6 +12,6 @@ export const toggleTodo = (todoId: number) => {
   return { type: actionTypes.TOGGLE_TODO, todoId };
 }
 
-export const updateTodo = (todoId: number, text: string) => {
-  return { type: actionTypes.TOGGLE_TODO, todoId, text };
+export const editTodo = (todoId: number, text: string) => {
+  return { type: actionTypes.EDIT_TODO, todoId, text };
 }

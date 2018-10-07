@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { deleteTodo, toggleTodo } from "../store/actions/todo";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPen, faTimes, faCheck } from '@fortawesome/free-solid-svg-icons'
+import { faPen, faTimes, faCheck, faSave } from '@fortawesome/free-solid-svg-icons'
 
 const Wrapper = styled.div`
   float: right;
@@ -14,7 +14,7 @@ const IconWrapper = styled.span`
   cursor: pointer;
 `;
 
-const TodoItemActions = ({ dispatch, id }: any) => {
+const TodoItemActions = ({ dispatch, id, toggleIsEditing, isEditing }: any) => {
 
   const deleteTodoHandler = (e: React.MouseEvent<HTMLElement>): void => {
     dispatch(deleteTodo(id));
@@ -26,7 +26,7 @@ const TodoItemActions = ({ dispatch, id }: any) => {
 
   const renderEditAndDeleteButtons = () => (
     <Wrapper>
-      <IconWrapper>
+      <IconWrapper onClick={toggleIsEditing}>
         <FontAwesomeIcon icon={faPen} color="grey" />
       </IconWrapper>
       <IconWrapper onClick={deleteTodoHandler}>
@@ -38,7 +38,19 @@ const TodoItemActions = ({ dispatch, id }: any) => {
     </Wrapper>
   )
 
-  return renderEditAndDeleteButtons();
+  const renderSaveAndCancelButtons = () => (
+    <Wrapper>
+      {/* <IconWrapper onClick={editTodoHandler}>
+        <FontAwesomeIcon icon={faSave} color="grey" />
+      </IconWrapper> */}
+      <IconWrapper onClick={toggleIsEditing}>
+        <FontAwesomeIcon icon={faTimes} color="red" />
+      </IconWrapper>
+    </Wrapper>
+  )
+
+  return isEditing ? renderSaveAndCancelButtons() : renderEditAndDeleteButtons();
+
 };
 
 export default connect()(TodoItemActions);

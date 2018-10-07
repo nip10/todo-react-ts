@@ -1,7 +1,7 @@
+import { Reducer } from 'redux';
 import * as actionTypes from './../actions/actionTypes';
 import format from 'date-fns/format';
 import get from 'lodash/get';
-import { Reducer } from 'redux';
 import { ITodo } from './../../types/todo';
 
 type ITodosState = ITodo[];
@@ -33,7 +33,7 @@ const toggleTodo = (state: ITodosState, action: any) => {
   });
 };
 
-const updateTodo = (state: ITodosState, action: any) => {
+const editTodo = (state: ITodosState, action: any) => {
   return state.map(todo => {
     if (todo.id !== action.todoId) { return todo; }
     return {
@@ -49,7 +49,7 @@ const todoReducer: Reducer<ITodosState> = (state = initialState, action: any) =>
     case actionTypes.ADD_TODO: return addTodo(state, action);
     case actionTypes.DELETE_TODO: return deleteTodo(state, action);
     case actionTypes.TOGGLE_TODO: return toggleTodo(state, action);
-    case actionTypes.UPDATE_TODO: return updateTodo(state, action);
+    case actionTypes.EDIT_TODO: return editTodo(state, action);
     default: return state;
   }
 }
