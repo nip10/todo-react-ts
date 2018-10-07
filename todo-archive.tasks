@@ -1,3 +1,6 @@
+✔ Remove 'dispatch' from props @done(18-10-07 18:04)
+✔ Check 'connect' synthax @done(18-10-07 18:04)
+✔ Remove unecessary EDIT_TODO action when the edited todo text is the same as the original @done(18-10-07 18:04)
 ✔ Move todo's state to app.tsx @critical @done(18-08-30 13:24)
   This should be handled on the app component since its basically what the app is about
   What would be the solution in more complex apps ? HOC ? Container ? Check examples

@@ -1,15 +1,13 @@
 NOW:
   ☐ Add types to stuff that has :any
-  ☐ Remove 'dispatch' from props ?
-  ☐ Check 'connect' synthax
 
 Roadmap:
   ☐ v2 - Add redux @today
-    ☐ Create actions/reducers
+    ✔ Create actions/reducers @done(18-10-07 18:04)
       ✔ Add todo @done(18-10-06 22:54)
       ✔ Delete todo @done(18-10-06 22:54)
-      ☐ Toggle todo
-      ☐ Edit todo
+      ✔ Toggle todo @done(18-10-07 18:04)
+      ✔ Edit todo @done(18-10-07 18:04)
     ☐ Persist data (redux-persist)
       https://www.npmjs.com/package/redux-persist
       from dan ab:
