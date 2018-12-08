@@ -1,19 +1,19 @@
 import GithubCorner from 'react-github-corner';
 import React, { Component } from 'react';
-import styled, { injectGlobal } from 'styled-components';
-import { Todos } from '../models/todos';
+import styled, { createGlobalStyle } from 'styled-components';
+import { Todos } from './../models/todos';
 import TodoList from './TodoList';
 import Header from './Header';
 import AddTodo from './AddTodo';
-import { colors } from '../theme/index';
+import { colors } from './../theme/index';
 import { ITodo } from './../types/todo';
 
-// tslint:disable-next-line:no-unused-expression
-injectGlobal`
-body {
-  background-color: ${colors.backgroundColor};
-  font-family: 'Roboto', sans-serif;
-}`
+const GlobalStyle = createGlobalStyle`
+  body {
+    background-color: ${colors.backgroundColor};
+    font-family: 'Roboto', sans-serif;
+  }
+`
 
 const Wrapper = styled.div`
   margin: 2em auto;
@@ -118,6 +118,7 @@ export default class App extends Component<{}, IAppState> {
   public render() {
     return (
       <Wrapper>
+        <GlobalStyle />
         <Header />
         <AddTodo addTodo={this.addTodo} />
         <TodoList

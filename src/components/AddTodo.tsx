@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { colors } from '../theme/index';
+import { colors } from './../theme/index';
 
 interface IAddTodoProps {
   addTodo: (text: string) => void
@@ -59,7 +59,7 @@ const AddTodo: React.SFC<IAddTodoProps> = props => {
 
   return (
     <Form onSubmit={onSubmitHandler}>
-      <Input type="text" placeholder="Task" innerRef={textInput} />
+      <Input type="text" placeholder="Task" ref={textInput} />
       <Button type="submit">
         Add Todo
       </Button>
