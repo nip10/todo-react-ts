@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { colors } from '../theme/index';
+import { colors } from './../theme/index';
 
 interface IAddTodoProps {
   addTodo: (text: string) => void
@@ -59,7 +59,9 @@ const AddTodo: React.SFC<IAddTodoProps> = props => {
 
   return (
     <Form onSubmit={onSubmitHandler}>
-      <Input type="text" placeholder="Task" innerRef={textInput} />
+      // the following weird ref line with 'as any' is caused by styled component's bad ts typings
+      // check here https://github.com/DefinitelyTyped/DefinitelyTyped/issues/28884
+      <Input type="text" placeholder="Task" ref={textInput as any} />
       <Button type="submit">
         Add Todo
       </Button>

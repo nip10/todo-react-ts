@@ -2,7 +2,7 @@ import * as styledComponents from 'styled-components';
 
 const {
   default: styled,
-  injectGlobal,
+  createGlobalStyle,
 } = styledComponents as styledComponents.ThemedStyledComponentsModule<{}>;
 
 export const colors = {
@@ -10,4 +10,4 @@ export const colors = {
 }
 
 export default styled;
-export { injectGlobal };
+export { createGlobalStyle };
