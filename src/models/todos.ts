@@ -12,7 +12,7 @@ export interface ITodos {
   save: () => void,
 }
 
-const Todos: ITodos = {
+export const Todos: ITodos = {
   items: [],
   populate() {
     if (localStorage.hasOwnProperty('todos')) {
@@ -55,5 +55,3 @@ const Todos: ITodos = {
     localStorage.setItem('todos', JSON.stringify(this.items));
   },
 }
-
-export default Todos;
