@@ -1,5 +1,6 @@
 # Todo app
-> Front-end for the todo-api project. Built with React + Typescript. v1 is live [here](https://p.dcdev.pt/todo)
+
+> Front-end for the todo-api project. Built with React + Typescript. v1 is live [here](https://todo.diogocardoso.me)
 
 <p align="center">
 <img src="http://via.placeholder.com/500x300">
@@ -9,12 +10,12 @@
 
 ### Pre-requisites
 
-* Node (for development)
-* NPM/Yarn
+- Node (for development)
+- NPM/Yarn
 
 ### Installing
 
-* Install packages
+- Install packages
 
 ```
 npm install
@@ -23,7 +24,7 @@ yarn
 
 ### Developing
 
-* Run in development mode
+- Run in development mode
 
 ```
 npm start
@@ -32,7 +33,7 @@ yarn start
 
 ### Production
 
-* Build assets
+- Build assets
 
 ```
 npm run build
@@ -41,7 +42,7 @@ yarn build
 
 ### Testing
 
-* Run tests (TODO)
+- Run tests (TODO)
 
 ```
 npm run test
@@ -50,20 +51,20 @@ yarn test
 
 ## Built With
 
-* [Create React App Typescript](https://github.com/wmonk/create-react-app-typescript)
-  * React v16.4.2
-  * Typescript v3
-* Styled-components
+- [Create React App Typescript](https://github.com/wmonk/create-react-app-typescript)
+  - React v16.4.2
+  - Typescript v3
+- Styled-components
 
 ## Roadmap
 
-* v1
+- v1
   - Implement all actions (add/remove/edit/toggle)
   - Use localStorage to save data
   - Add styles
-* v2
+- v2
   - Use the todo-api project for user authentication and save data
-* v3
+- v3
   - Add Redux
 
 ## Contributing
