@@ -1,16 +1,20 @@
 language: node_js
 node_js:
-  - '10'
+  - "10"
 sudo: false
 cache:
   yarn: true
   directories:
     - node_modules
-script:
+install:
   - yarn
+before_script:
+  - pip install awscli --upgrade --user
+  - export PATH=$PATH:$HOME/.local/bin
+script:
   - yarn build
-before_deploy:
-  - pip install --user awscli
+after_success:
+  - aws_access_key_id=${AWS_ACCESS_KEY_ID} aws_secret_access_key=${AWS_SECRET_ACCESS_KEY} aws s3 rm s3://sh.diogocardoso.me --recursive --region eu-west-2
 deploy:
   provider: s3
   access_key_id:
@@ -18,8 +22,20 @@ deploy:
   secret_access_key:
     secure: "nmB9JclrFAM5DII84Eb1WhkYzd3JRqg/EmNz+lhtEBcBv/e4u2XSwm2uFkTvdGAxJfD/z1HDzD+zUZljVTMk4NQCww10LQnf5gaU/nV3I4/krzYLeDDWxQY8Mnm22ID9LLC3IyypFoY+qEjEqh2GWrz6sUUU6uTR6onfxfhgDHJWwMIK+ACPQOiAsFY9LZahOgqmpl+YqjYzgKsOfYGnrCDU2v6PDh158SJ8QcKxcSkuAMa2JA17eMPY8ge/ixNzg8igDg5iTUE6NRpp4yYLvkw8g2KvVE9jaPEXQQEQ2OLvoN55R51+HvPhhV/BpyPdbug30bdCxn5lliNcfXOIzUQwtsJM4vGD8w603sqfZSgsjeqBLysym+LgPPnxthrb0jzE4BPEqG+rvg+NxrGJJHn5+D2h3gHnKpSdnDOsx0RlgXAe/YjLzwR/IP/EpO7cy4HE981NJX1d7wRbhRsDVD/a9j4A2Tv+iZgWq16IqxYo8fO5uWhmKiZ/I/rgGfiHw7RFYslVH4Ohdff+tfMQ3hXpiOSxijv4RI7b5r5rK/VoMTOYEzhgbvFeQbM093R5ctTA/5u3/aQ+fER5DFH4h4PFt53hhj+aiFcyQ+B+Sy9kw13Pb1XZrtSijLkvAd6MPaOXYusliL0KGhakdovMxGph9LwSOeS1epD4NkpZb2Y="
   bucket: todo.diogocardoso.me
+  # Prevent Travis from deleting the build artifacts
   skip_cleanup: true
   region: eu-west-2
+  # Deploy a single folder and not the entire project
   local_dir: build
+after_deploy:
+  - aws_access_key_id=${AWS_ACCESS_KEY_ID} aws_secret_access_key=${AWS_SECRET_ACCESS_KEY} aws cloudfront create-invalidation --distribution-id ${CF_DISTRIBUTION_ID} --paths "/*"
 notifications:
   email: false
+env:
+  global:
+    # CF_DISTRIBUTION_ID - Cloudfront Distribution ID
+    - secure: "TeHC6qChjH9+kUlNKkiwdd38B3nko1cTKoU3IDZF/8Lhg09VHgNfIiAlh3EJ57dmpQ35xLzikOwp+LDFPKqNAh9wqJHnkJSxTWMfOFF4xLxshqhhmvnODe3aPA958YbfoBz7O6TLyAcqWxX7lQe+yXsPlKna+XNo6EWsxyJw/v6piE4apmEZL9FgSVZxhm0+SfOLvMYzxQZnf3M1K1g/EAVC8xurC+1h0ki5LS51uPAhejK/Vz7AFrYyzxgPCRhbPKE3ncbXX+aGYo/PJDyFD35FdNUS8nsKXfjwiH6nG4kixUqqrIn4wGewTa3kawQUYpVg0awwtsi0HNqZd9I14GLkUP6n5jhAK9pfZOxUIpIvF2wY94nYm2zst6nhgj6bl0719qOkF9/zL9Ai4MSBMhnZhl1M3JIQwZ/gLG4IMFxgyHGYtMPqWheJCUo64RZFNQCz7vg2z/wrMx9s3rpYaH1TkKuWHEsEcK8Mt7GMLdbcyuBlrbrAOLieMSpuxq6ckj9RiUkcqaxlmIe846hzatmK2xvtVhPKxzTOwbWH3ibE3g2fLvbMLbvMOTa1ssGheplJHR3LFU4/PcULOULLGcBCB/PS7ZQVaBnmNBOJi+Bw6moLuedfM9+PbKljUyheTybeaOpUkAJNNKA5v+zf+vhABeUIlF5mwjHql/v3oB0="
+    # AWS_ACCESS_KEY_ID - AWS Access Key ID
+    - secure: "pTg6yznT+iiWCiOUzcgTFOdU+NjMiCKmXQ+yxXXGC2IsrvR4heUl2AbsJMKKasAJMVHXaILez2AhlyTLGBV3aa+bnPZEc38OvbA3umvRohzpal/WUc/zegRMM4D830WSuw4u6cCNI7tnh6z30dzuAdyExOAlufaP+zLDzDzz/U1IpUim3YA3dAPw50kTSJGJ5t8TXajAEhB0DyllVvtIjXlUlBWj1p4p4ms50cn4E/zcp54dJjOIaMkcIyTmXzIdDiCWVsui6LWBWSTbya6OQucu4q3B/8meb0V/yyfi9+sW4oNiAYNwaADYeamHWmmPcO8JYwCjGrEWuPirOvTRiKc3fmd6eGcDPpVCncPj8jCQW0yBK2HaUl6BFJu1de067Q1aRihb2x7ybGATB4ah929x9HY2Q14YRlD0vKMuvDJUyFZs7L13z6H7UxdHbKAQYbcS9lIkc44SCcn8Cil+boV8Cz8LGXeXY3SuMT48H15hGROQLRGPTxYN54tKZZY7iYpYOo/mhCVFjHSGyrASxyk/SgAsWLrN/a6ctPdtNzkWkaP7cnsBNRnRYS1G4ytm5N8wQo0BJtvDPJoIchJ6prxmrrYga4mwFfnBOJSCTk5l7RTkktN5Byriymo7CV+goI0vr7Cgv1IBXdVbeuVX2yzYB0h2ecwlolq38jwvpR0="
+    # AWS_SECRET_ACCESS_KEY - AWS Secret Access Key
+    - secure: "Ebv/t/NmOhWydIWHX3HMgr4HqxMGgkfPNv2yL00gjfjKQqNJnf9GtjIqOpw0tDDHS5hlxneIiSN8B/WhB7SPkl2pdcf8f2LERhuw7D+bzSTLaYRU5eQNn/tq0rRDYQ8LkIM459bn3h4T0aXlnKvNpke+ospb32WCdqe6DRcDM0U5l5RQde0nb+Qtn3QhDh7QjIUIvj2fS6XkQ9NjeTWN60ve5+OKXYQHsInxD2k2y/LokxRbi5uiW3egX8uvT0BhIhNzzgf42Vuzd7QrA1mu0CsyxFS037RRtMwg85eOnggbj51lpCR2ZAKeaCX2KDJsubRFjxJFk0xNa77We8KCaHNtrTUeCqZuX+wvuiFqPI+I8Es64D1pmGPj0FgT45rRTTfi6weX0FhPPakGKfWTtbtZBl/1oRSsDFpCnNK1Z7B3SBDqmUKeXaNezrmI9Vi8oH1DkUZOufWDpMzNv1ZyjFmXPNg8XcPrC8aXan5jpxCptxQN2Bf11js/nYeO8WmQ5iA4oFOW+Fe4ml4Ex1K26TJ04pOb/0Dmtwpv6mrNVhJvKrJcH4T54/uIb4MBuxY7whHpP6mnICY5BOv3zMSPKB8hR8YL8PGaqlGaVzr416K07FIKZwBbooV1TaRVeTviSmXoRkxtKyikThRX+sQjirZsikt6XVMYcC3yNXxMujo="
