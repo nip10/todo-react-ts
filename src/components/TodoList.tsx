@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import styled from 'styled-components';
-import TodoItem from './TodoItem';
-import { ITodo } from './../types/todo';
+import React, { Component } from "react";
+import styled from "styled-components";
+import TodoItem from "./TodoItem";
+import { ITodo } from "./../types/todo";
 
 interface ITodoListProps {
-  todos: ITodo[],
-  removeTodo: (todoId: number) => void,
-  editTodo: (todoId: number, text: string) => void,
-  toggleTodo: (todoId: number) => void,
+  todos: ITodo[];
+  removeTodo: (todoId: number) => void;
+  editTodo: (todoId: number, text: string) => void;
+  toggleTodo: (todoId: number) => void;
 }
 
 const TodoListWrapper = styled.ul`
@@ -15,7 +15,7 @@ const TodoListWrapper = styled.ul`
   margin: 0;
   list-style: none;
   border-top: 1px solid #e6e6e6;
-`
+`;
 
 export default class TodoList extends Component<ITodoListProps, {}> {
   private renderTodoItems = (todos: ITodo[]) => {
@@ -28,11 +28,11 @@ export default class TodoList extends Component<ITodoListProps, {}> {
             removeTodo={this.props.removeTodo}
             editTodo={this.props.editTodo}
             toggleTodo={this.props.toggleTodo}
-          />)
-        )}
+          />
+        ))}
       </TodoListWrapper>
     );
-  }
+  };
 
   public render() {
     const { todos } = this.props;

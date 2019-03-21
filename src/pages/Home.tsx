@@ -1,38 +1,20 @@
-import GithubCorner from 'react-github-corner';
-import React, { Component } from 'react';
-import styled, { createGlobalStyle } from 'styled-components';
-import { Todos } from './../models/todos';
-import TodoList from './TodoList';
-import Header from './Header';
-import AddTodo from './AddTodo';
-import { colors } from './../theme/index';
-import { ITodo } from './../types/todo';
+import React, { Component } from "react";
+import { Todos } from "./../models/todos";
+import TodoList from "../components/TodoList";
+import Header from "../components/Header";
+import AddTodo from "../components/AddTodo";
+import { ITodo } from "./../types/todo";
 
-const GlobalStyle = createGlobalStyle`
-  body {
-    background-color: ${colors.backgroundColor};
-    font-family: 'Roboto', sans-serif;
-  }
-`
-
-const Wrapper = styled.div`
-  margin: 2em auto;
-  max-width: 900px;
-  background-color: white;
-  padding: 1em;
-  box-shadow: 0 3px 5px rgba(0, 0, 0, .3);
-`;
-
-interface IAppState {
-  todos: ITodo[]
+interface IHomeState {
+  todos: ITodo[];
 }
 
-export default class App extends Component<{}, IAppState> {
+export default class Home extends Component<{}, IHomeState> {
   constructor(props: {}) {
     super(props);
     this.state = {
-      todos: Todos.items,
-    }
+      todos: [...Todos.items]
+    };
   }
 
   /**
@@ -44,8 +26,8 @@ export default class App extends Component<{}, IAppState> {
    */
   private addTodo = (text: string): void => {
     Todos.add(text);
-    this.setState({ todos: Todos.items });
-  }
+    this.setState({ todos: [...Todos.items] });
+  };
 
   /**
    * Remove a todo from app's state.
@@ -56,8 +38,8 @@ export default class App extends Component<{}, IAppState> {
    */
   private removeTodo = (todoId: number): void => {
     Todos.remove(todoId);
-    this.setState({ todos: Todos.items });
-  }
+    this.setState({ todos: [...Todos.items] });
+  };
 
   /**
    * Update a todo's text.
@@ -69,8 +51,8 @@ export default class App extends Component<{}, IAppState> {
    */
   private editTodo = (todoId: number, text: string): void => {
     Todos.update(todoId, text);
-    this.setState({ todos: Todos.items });
-  }
+    this.setState({ todos: [...Todos.items] });
+  };
 
   /**
    * Update a todo's status.
@@ -81,8 +63,8 @@ export default class App extends Component<{}, IAppState> {
    */
   private toggleTodo = (todoId: number) => {
     Todos.toggle(todoId);
-    this.setState({ todos: Todos.items });
-  }
+    this.setState({ todos: [...Todos.items] });
+  };
 
   /**
    * Save todos from the app's state in localstorage
@@ -92,33 +74,25 @@ export default class App extends Component<{}, IAppState> {
    */
   private saveStateToLocalStorage = (): void => {
     Todos.save();
-  }
+  };
 
   public componentDidMount = (): void => {
     Todos.populate();
-    this.setState({ todos: Todos.items });
+    this.setState({ todos: [...Todos.items] });
     // add event listener to save state to localStorage
     // when user leaves/refreshes the page
-    window.addEventListener(
-      "beforeunload",
-      this.saveStateToLocalStorage
-    );
-  }
+    window.addEventListener("beforeunload", this.saveStateToLocalStorage);
+  };
 
   public componentWillUnmount = (): void => {
-    window.removeEventListener(
-      "beforeunload",
-      this.saveStateToLocalStorage
-    );
+    window.removeEventListener("beforeunload", this.saveStateToLocalStorage);
     // saves if component has a chance to unmount
     this.saveStateToLocalStorage();
-  }
-
+  };
 
   public render() {
     return (
-      <Wrapper>
-        <GlobalStyle />
+      <>
         <Header />
         <AddTodo addTodo={this.addTodo} />
         <TodoList
@@ -127,8 +101,7 @@ export default class App extends Component<{}, IAppState> {
           editTodo={this.editTodo}
           toggleTodo={this.toggleTodo}
         />
-        <GithubCorner href='https://github.com/nip10/todo-react-ts' />
-      </Wrapper>
+      </>
     );
   }
 }

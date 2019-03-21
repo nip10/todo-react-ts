@@ -1,20 +1,20 @@
-import React, { Component } from 'react';
-import styled from 'styled-components';
-import TodoItemActions from './TodoItemActions';
-import { ITodo } from './../types/todo';
+import React, { Component } from "react";
+import styled from "styled-components";
+import TodoItemActions from "./TodoItemActions";
+import { ITodo } from "./../types/todo";
 
 interface ITodoItemProps extends ITodo {
-  removeTodo: (todoId: number) => void,
-  editTodo: (todoId: number, text: string) => void,
-  toggleTodo: (todoId: number) => void,
+  removeTodo: (todoId: number) => void;
+  editTodo: (todoId: number, text: string) => void;
+  toggleTodo: (todoId: number) => void;
 }
 
 interface ITodoItemWrapperProps {
-  completed?: boolean,
+  completed?: boolean;
 }
 
 interface ITodoItemState {
-  isEditing: boolean,
+  isEditing: boolean;
 }
 
 const Wrapper = styled.li`
@@ -25,8 +25,10 @@ const Wrapper = styled.li`
   text-align: justify;
   /* There's no need to select the icons because they are svg's which are not affected by text-decoration */
   > :not(span) {
-    text-decoration: ${(props: ITodoItemWrapperProps) => props.completed ? 'line-through' : 'none'};
-    opacity: ${(props: ITodoItemWrapperProps) => props.completed ? '0.7' : '1'};
+    text-decoration: ${(props: ITodoItemWrapperProps) =>
+      props.completed ? "line-through" : "none"};
+    opacity: ${(props: ITodoItemWrapperProps) =>
+      props.completed ? "0.7" : "1"};
   }
 `;
 
@@ -39,12 +41,15 @@ const TodoTimestamp = styled.span`
   color: rgba(0, 0, 0, 0.6);
 `;
 
-export default class TodoItem extends Component<ITodoItemProps, ITodoItemState> {
+export default class TodoItem extends Component<
+  ITodoItemProps,
+  ITodoItemState
+> {
   constructor(props: ITodoItemProps) {
     super(props);
     this.state = {
-      isEditing: false,
-    }
+      isEditing: false
+    };
     this.textInput = React.createRef();
   }
 
@@ -52,7 +57,7 @@ export default class TodoItem extends Component<ITodoItemProps, ITodoItemState> 
 
   private toggleIsEditing = () => {
     this.setState(prevState => ({ isEditing: !prevState.isEditing }));
-  }
+  };
 
   private onSubmitHandler = (e: React.FormEvent<EventTarget>): void => {
     e.preventDefault();
@@ -62,10 +67,10 @@ export default class TodoItem extends Component<ITodoItemProps, ITodoItemState> 
         return;
       }
       this.props.editTodo(this.props.id, todoRef.value);
-      todoRef.value = '';
+      todoRef.value = "";
     }
     this.toggleIsEditing();
-  }
+  };
 
   /**
    * Render the timestamp of the creation/update of the todo
@@ -77,12 +82,12 @@ export default class TodoItem extends Component<ITodoItemProps, ITodoItemState> 
   private renderTimestamp = () => {
     let timestampMessage;
     if (this.props.updatedAt) {
-      timestampMessage = this.props.updatedAt + ' - edited';
+      timestampMessage = this.props.updatedAt + " - edited";
     } else {
       timestampMessage = this.props.createdAt;
     }
-    return <TodoTimestamp>{timestampMessage}</TodoTimestamp>
-  }
+    return <TodoTimestamp>{timestampMessage}</TodoTimestamp>;
+  };
 
   /**
    * Render for editing mode
@@ -93,7 +98,12 @@ export default class TodoItem extends Component<ITodoItemProps, ITodoItemState> 
   private renderEditingTodo = () => (
     <Wrapper>
       <form onSubmit={this.onSubmitHandler}>
-        <input type="text" defaultValue={this.props.text} ref={this.textInput} autoFocus={true} />
+        <input
+          type="text"
+          defaultValue={this.props.text}
+          ref={this.textInput}
+          autoFocus={true}
+        />
       </form>
       <TodoItemActions
         id={this.props.id}
@@ -104,7 +114,7 @@ export default class TodoItem extends Component<ITodoItemProps, ITodoItemState> 
         textInput={this.textInput}
       />
     </Wrapper>
-  )
+  );
 
   /**
    * Render for normal mode
@@ -114,9 +124,7 @@ export default class TodoItem extends Component<ITodoItemProps, ITodoItemState> 
    */
   private renderNormalTodo = () => (
     <Wrapper completed={this.props.completed}>
-      <TodoText >
-        {this.props.text}
-      </TodoText>
+      <TodoText>{this.props.text}</TodoText>
       {this.renderTimestamp()}
       <TodoItemActions
         id={this.props.id}
@@ -127,7 +135,7 @@ export default class TodoItem extends Component<ITodoItemProps, ITodoItemState> 
         toggleTodo={this.props.toggleTodo}
       />
     </Wrapper>
-  )
+  );
 
   public render() {
     const { isEditing } = this.state;

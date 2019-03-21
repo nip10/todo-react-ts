@@ -1,9 +1,9 @@
-import React from 'react';
-import styled from 'styled-components';
-import { colors } from './../theme/index';
+import React from "react";
+import styled from "styled-components";
+import { colors } from "./../theme/index";
 
 interface IAddTodoProps {
-  addTodo: (text: string) => void
+  addTodo: (text: string) => void;
 }
 
 const Input = styled.input`
@@ -36,7 +36,6 @@ const Form = styled.form`
 `;
 
 const AddTodo: React.SFC<IAddTodoProps> = props => {
-
   const textInput: React.RefObject<HTMLInputElement> = React.createRef();
 
   /**
@@ -53,20 +52,18 @@ const AddTodo: React.SFC<IAddTodoProps> = props => {
         return;
       }
       props.addTodo(todoRef.value);
-      todoRef.value = '';
+      todoRef.value = "";
     }
-  }
+  };
 
   return (
     <Form onSubmit={onSubmitHandler}>
       {/* the following weird ref line with 'as any' is caused by styled component's bad ts typings
       check here https://github.com/DefinitelyTyped/DefinitelyTyped/issues/28884 */}
       <Input type="text" placeholder="Task" ref={textInput as any} />
-      <Button type="submit">
-        Add Todo
-      </Button>
+      <Button type="submit">Add Todo</Button>
     </Form>
-  )
-}
+  );
+};
 
 export default AddTodo;
