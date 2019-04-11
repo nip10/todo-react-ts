@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { colors } from "./../theme/index";
-
-interface IAddTodoProps {
-  addTodo: (text: string) => void;
-}
+import { Dispatch, Action } from "redux";
+import { connect } from "react-redux";
+import { ThunkDispatch } from "redux-thunk";
+import { addTodo } from "../actions/todo";
 
 const Input = styled.input`
   padding: 0.5em;
@@ -35,35 +35,33 @@ const Form = styled.form`
   padding: 1em 0;
 `;
 
-const AddTodo: React.SFC<IAddTodoProps> = props => {
-  const textInput: React.RefObject<HTMLInputElement> = React.createRef();
+const AddTodo = ({ addTodo }: { addTodo: any }) => {
+  const [todo, setTodo] = useState("");
 
-  /**
-   * Submit form handler. Get the value from the input element and pass it to the add prop function.
-   *
-   * @param {React.FormEvent<EventTarget>} e
-   * @returns {void}
-   */
   const onSubmitHandler = (e: React.FormEvent<EventTarget>): void => {
     e.preventDefault();
-    const todoRef = textInput.current;
-    if (todoRef) {
-      if (!todoRef.value.trim()) {
-        return;
-      }
-      props.addTodo(todoRef.value);
-      todoRef.value = "";
-    }
+    console.log("Todo:", todo);
+    addTodo(todo);
   };
 
   return (
     <Form onSubmit={onSubmitHandler}>
-      {/* the following weird ref line with 'as any' is caused by styled component's bad ts typings
-      check here https://github.com/DefinitelyTyped/DefinitelyTyped/issues/28884 */}
-      <Input type="text" placeholder="Task" ref={textInput as any} />
+      <Input
+        type="text"
+        placeholder="Task"
+        required
+        onChange={e => setTodo(e.target.value)}
+      />
       <Button type="submit">Add Todo</Button>
     </Form>
   );
 };
 
-export default AddTodo;
+const mapDispatchToProps = (dispatch: ThunkDispatch<any, null, Action>) => ({
+  addTodo: (todo: string) => dispatch(addTodo(todo))
+});
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(AddTodo);

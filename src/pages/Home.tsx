@@ -94,7 +94,7 @@ export default class Home extends Component<{}, IHomeState> {
     return (
       <>
         <Header />
-        <AddTodo addTodo={this.addTodo} />
+        <AddTodo />
         <TodoList
           todos={this.state.todos}
           removeTodo={this.removeTodo}

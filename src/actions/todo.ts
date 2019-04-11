@@ -13,12 +13,13 @@ export const addTodo = (
   text: string
 ): ThunkAction<void, IAppState, null, Action<string>> => async dispatch => {
   try {
+    // TODO: This request will always fail without the x-auth token...
     const res = await axios.post("localhost:3001/todos", { text });
     console.log("Response from adding todo:", res);
     dispatch(addTodoSuccess(text));
   } catch (err) {
-    console.log("Error from adding todo:", err.response.data.error);
-    dispatch(addTodoFail(err.response.data.error));
+    console.log("Error from adding todo:", err);
+    dispatch(addTodoFail(err));
   }
 };
 
