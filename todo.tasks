@@ -23,6 +23,9 @@ Roadmap:
   ☐ v5 - Add offline persistance
     IndexedDB
 
+Misc:
+  ☐ Authenticated users shouldnt be allowed to go to the login or register page
+
 Deploy:
   ☐ Add google analytics @low
     ☐ Look for a react component to get extra data ?
