@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
 import styled from "styled-components";
 import { colors } from "../theme/index";
-import { login } from "../actions/auth";
+import { register } from "../actions/auth";
 
 const Input = styled.input`
   padding: 0.5em;
@@ -35,12 +35,15 @@ const Form = styled.form`
   padding: 1em 0;
 `;
 
-const Register = () => {
+const Register = ({ register }: { register: any }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const onSubmitHandler = (e: React.FormEvent<EventTarget>): void => {
+    e.preventDefault();
     console.log("Email:", email);
     console.log("Password:", password);
+    // debugger;
+    register(email, password);
   };
   return (
     <Form onSubmit={onSubmitHandler}>
@@ -64,7 +67,8 @@ const Register = () => {
 };
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<any, null, Action>) => ({
-  login: (email: string, password: string) => dispatch(login(email, password))
+  register: (email: string, password: string) =>
+    dispatch(register(email, password))
 });
 
 export default connect(
