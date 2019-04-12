@@ -13,10 +13,15 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Layout from "./hoc/Layout";
 
-class App extends Component<any, any> {
-  constructor(props: {}) {
+interface IAppProps {
+  isAuthenticated: boolean;
+}
+
+class App extends Component<IAppProps, any> {
+  constructor(props: IAppProps) {
     super(props);
   }
+
   public render() {
     let routes = (
       <Switch>
