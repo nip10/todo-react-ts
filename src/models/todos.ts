@@ -42,6 +42,6 @@ export const Todos: ITodos = {
     this.items[todoIndex].updatedAt = format(new Date(), "DD-MM-YYYY HH:mm");
   },
   save() {
-    localStorage.setItem("todos", JSON.stringify(this.items));
+    // localStorage.setItem("todos", JSON.stringify(this.items));
   }
 };
