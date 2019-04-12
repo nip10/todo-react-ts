@@ -5,6 +5,7 @@ export interface IAuthState {
   userId: string;
   error: string;
   loading: boolean;
+  isAuthenticated: boolean;
 }
 
 export type IAppState = ReturnType<typeof rootReducer>;
@@ -23,6 +24,7 @@ export interface IActionAuthSuccess {
   payload: {
     token: IAuthState["token"];
     userId: IAuthState["userId"];
+    isAuthenticated: IAuthState["isAuthenticated"];
   };
 }
 
@@ -39,6 +41,11 @@ export const AUTH_LOGOUT = "AUTH_LOGOUT";
 
 export interface IActionAuthLogout {
   type: typeof AUTH_LOGOUT;
+  payload: {
+    token: IAuthState["token"];
+    userId: IAuthState["userId"];
+    isAuthenticated: IAuthState["isAuthenticated"];
+  };
 }
 
 export type AuthActionTypes =

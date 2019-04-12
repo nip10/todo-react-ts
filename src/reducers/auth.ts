@@ -16,7 +16,8 @@ const initialState: IAuthState = {
   token: "",
   userId: "",
   error: "",
-  loading: false
+  loading: false,
+  isAuthenticated: false
 };
 
 const authStart = (state: IAuthState, action: IActionAuthStart) => {
@@ -28,7 +29,8 @@ const authSuccess = (state: IAuthState, action: IActionAuthSuccess) => {
     token: action.payload.token,
     userId: action.payload.userId,
     error: null,
-    loading: false
+    loading: false,
+    isAuthenticated: true
   });
 };
 
@@ -40,7 +42,11 @@ const authFail = (state: IAuthState, action: IActionAuthFail) => {
 };
 
 const authLogout = (state: IAuthState, action: IActionAuthLogout) => {
-  return updateObject(state, { token: null, userId: null });
+  return updateObject(state, {
+    token: null,
+    userId: null,
+    isAuthenticated: false
+  });
 };
 
 const reducer = (state = initialState, action: AuthActionTypes): IAuthState => {

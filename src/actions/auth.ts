@@ -20,14 +20,15 @@ export const loginStart = (): IActionAuthStart => {
 };
 
 export const loginSuccess = (
-  token: string,
-  userId: string
+  userId: string,
+  token: string
 ): IActionAuthSuccess => {
   return {
     type: AUTH_SUCCESS,
     payload: {
       token,
-      userId
+      userId,
+      isAuthenticated: true
     }
   };
 };
@@ -46,7 +47,12 @@ export const logout = (): IActionAuthLogout => {
   localStorage.removeItem("expirationDate");
   localStorage.removeItem("userId");
   return {
-    type: AUTH_LOGOUT
+    type: AUTH_LOGOUT,
+    payload: {
+      token: "",
+      userId: "",
+      isAuthenticated: false
+    }
   };
 };
 
@@ -92,7 +98,8 @@ export const registerSuccess = (
     type: AUTH_SUCCESS,
     payload: {
       token,
-      userId
+      userId,
+      isAuthenticated: true
     }
   };
 };

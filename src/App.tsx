@@ -40,9 +40,9 @@ class App extends Component<any, any> {
   }
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = ({ auth }: any) => {
   return {
-    isAuthenticated: state.auth.token.length > 0
+    isAuthenticated: auth.isAuthenticated
   };
 };
 
