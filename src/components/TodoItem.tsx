@@ -4,9 +4,9 @@ import TodoItemActions from "./TodoItemActions";
 import { ITodo } from "./../types/todo";
 
 interface ITodoItemProps extends ITodo {
-  removeTodo: (todoId: number) => void;
-  editTodo: (todoId: number, text: string) => void;
-  toggleTodo: (todoId: number) => void;
+  // removeTodo: (todoId: number) => void;
+  // editTodo: (todoId: number, text: string) => void;
+  // toggleTodo: (todoId: number) => void;
 }
 
 interface ITodoItemWrapperProps {
@@ -66,7 +66,7 @@ export default class TodoItem extends Component<
       if (!todoRef.value.trim()) {
         return;
       }
-      this.props.editTodo(this.props.id, todoRef.value);
+      // this.props.editTodo(this.props.id, todoRef.value);
       todoRef.value = "";
     }
     this.toggleIsEditing();
@@ -107,8 +107,8 @@ export default class TodoItem extends Component<
       </form>
       <TodoItemActions
         id={this.props.id}
-        removeTodo={this.props.removeTodo}
-        editTodo={this.props.editTodo}
+        // removeTodo={this.props.removeTodo}
+        // editTodo={this.props.editTodo}
         isEditing={this.state.isEditing}
         toggleIsEditing={this.toggleIsEditing}
         textInput={this.textInput}
@@ -128,11 +128,11 @@ export default class TodoItem extends Component<
       {this.renderTimestamp()}
       <TodoItemActions
         id={this.props.id}
-        removeTodo={this.props.removeTodo}
-        editTodo={this.props.editTodo}
+        // removeTodo={this.props.removeTodo}
+        // editTodo={this.props.editTodo}
         isEditing={this.state.isEditing}
         toggleIsEditing={this.toggleIsEditing}
-        toggleTodo={this.props.toggleTodo}
+        // toggleTodo={this.props.toggleTodo}
       />
     </Wrapper>
   );

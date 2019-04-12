@@ -11,8 +11,8 @@ import {
 interface ITodoItemActionsProps {
   id: number;
   isEditing: boolean;
-  removeTodo: (todoId: number) => void;
-  editTodo: (todoId: number, text: string) => void;
+  // removeTodo: (todoId: number) => void;
+  // editTodo: (todoId: number, text: string) => void;
   toggleTodo?: (todoId: number) => void;
   toggleIsEditing: () => void;
   textInput?: React.RefObject<HTMLInputElement>;
@@ -38,7 +38,7 @@ const TodoItemActions = (props: ITodoItemActionsProps) => {
 
   const removeTodoHandler = (e: React.MouseEvent<HTMLElement>): void => {
     e.preventDefault();
-    props.removeTodo(props.id);
+    // props.removeTodo(props.id);
   };
 
   const editTodoHandler = (e: React.MouseEvent<HTMLElement>): void => {
@@ -51,7 +51,7 @@ const TodoItemActions = (props: ITodoItemActionsProps) => {
       if (!todoRef.value.trim()) {
         return;
       }
-      props.editTodo(props.id, todoRef.value);
+      // props.editTodo(props.id, todoRef.value);
       todoRef.value = "";
     }
     props.toggleIsEditing();
