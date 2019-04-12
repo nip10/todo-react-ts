@@ -4,7 +4,7 @@ import { colors } from "./../theme/index";
 import { Dispatch, Action } from "redux";
 import { connect } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
-import { addTodo } from "../actions/todo";
+import { addTodoDb, addTodoLocal } from "../actions/todo";
 
 const Input = styled.input`
   padding: 0.5em;
@@ -35,13 +35,17 @@ const Form = styled.form`
   padding: 1em 0;
 `;
 
-const AddTodo = ({ addTodo }: { addTodo: any }) => {
+const AddTodo = ({ addTodoDb, addTodoLocal, isAuthenticated }: any) => {
   const [todo, setTodo] = useState("");
 
   const onSubmitHandler = (e: React.FormEvent<EventTarget>): void => {
     e.preventDefault();
     console.log("Todo:", todo);
-    addTodo(todo);
+    if (isAuthenticated) {
+      addTodoDb(todo);
+    } else {
+      addTodoLocal(todo);
+    }
   };
 
   return (
@@ -58,10 +62,15 @@ const AddTodo = ({ addTodo }: { addTodo: any }) => {
 };
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<any, null, Action>) => ({
-  addTodo: (todo: string) => dispatch(addTodo(todo))
+  addTodoDb: (todo: string) => dispatch(addTodoDb(todo)),
+  addTodoLocal: (todo: string) => dispatch(addTodoLocal(todo))
+});
+
+const mapStateToProps = ({ auth }: any) => ({
+  isAuthenticated: auth.isAuthenticated
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(AddTodo);

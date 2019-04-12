@@ -9,12 +9,25 @@ import {
 } from "../store/types/todo";
 import { IAppState } from "../store/types/auth";
 
-export const addTodo = (
+export const addTodoLocal = (text: string) => (dispatch: any) => {
+  // We can assume the user is NOT authenticated when it gets here
+  dispatch(addTodoSuccess(text));
+};
+
+export const addTodoDb = (
   text: string
-): ThunkAction<void, IAppState, null, Action<string>> => async dispatch => {
+): ThunkAction<void, IAppState, null, Action<string>> => async (
+  dispatch,
+  getState
+) => {
+  // We can assume the user is authenticated when it gets here
   try {
-    // TODO: This request will always fail without the x-auth token...
-    const res = await axios.post("localhost:3001/todos", { text });
+    // TODO: Add x-auth token to headers
+    const res = await axios.post(
+      "http://localhost:3001/todos",
+      { text },
+      { headers: { "x-auth": getState().auth.token } }
+    );
     console.log("Response from adding todo:", res);
     dispatch(addTodoSuccess(text));
   } catch (err) {
