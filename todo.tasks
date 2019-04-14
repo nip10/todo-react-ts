@@ -1,6 +1,21 @@
 Roadmap:
   ☐ v2 - Add redux @today
-    ☐ Create actions/reducers/whatever for adding/editing/removing/toggling a todo
+    ☐ Create actions/reducers/types
+      ✔ Auth @done(19-04-12 18:22)
+      ☐ Todos
+        ✔ Add @done(19-04-12 18:25)
+          ✔ Add to db @done(19-04-12 18:25)
+          ✔ Add to localstorage @done(19-04-12 18:25)
+        ☐ Remove
+          ☐ Remove from db
+          ☐ Remove from localstorage
+        ☐ Edit
+          ☐ Update db
+          ☐ Update localstorage
+        ☐ Toggle
+          ☐ Update db
+          ☐ Update localstorage
+        All the actions on the db must be done on localstorage as well (the opposite doesnt apply)
   ☐ v3 - Add todo-api
     ☐ Add authentication
       - This HAS to be the 1st step on adding the api because we can't do anything without being authenticated
@@ -25,6 +40,7 @@ Roadmap:
 
 Misc:
   ☐ Authenticated users shouldnt be allowed to go to the login or register page
+  ☐ Figure out why the timestamps are no longer showing
 
 Deploy:
   ☐ Add google analytics @low
