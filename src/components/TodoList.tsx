@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import TodoItem from "./TodoItem";
@@ -20,13 +20,7 @@ const TodoList = ({ todos }: ITodoListProps) => {
     return (
       <TodoListWrapper>
         {todos.map((todo, index) => (
-          <TodoItem
-            key={index}
-            {...todo}
-            // removeTodo={this.props.removeTodo}
-            // editTodo={this.props.editTodo}
-            // toggleTodo={this.props.toggleTodo}
-          />
+          <TodoItem key={index} {...todo} />
         ))}
       </TodoListWrapper>
     );
