@@ -11,7 +11,7 @@ import {
   TODO_REMOVE_FAIL,
   IActionTodoRemoveFail
 } from "../store/types/todo";
-import { IAppState } from "../store/types/auth";
+import { IAppState } from "../store";
 
 export const addTodoLocal = (text: string) => (dispatch: any) => {
   // We can assume the user is NOT authenticated when it gets here

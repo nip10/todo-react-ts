@@ -1,5 +1,3 @@
-import rootReducer from "../../reducers";
-
 export interface IAuthState {
   token: string;
   userId: string;
@@ -7,9 +5,6 @@ export interface IAuthState {
   loading: boolean;
   isAuthenticated: boolean;
 }
-
-export type IAppState = ReturnType<typeof rootReducer>;
-// @TODO: Move this
 
 export const AUTH_START = "AUTH_START";
 

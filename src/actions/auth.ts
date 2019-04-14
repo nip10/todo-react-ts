@@ -1,8 +1,7 @@
 import axios from "axios";
-import { Action, AnyAction } from "redux";
 import { ThunkAction } from "redux-thunk";
+import { Action } from "redux";
 import {
-  IAppState,
   AUTH_START,
   IActionAuthStart,
   AUTH_SUCCESS,
@@ -12,6 +11,7 @@ import {
   AUTH_LOGOUT,
   IActionAuthLogout
 } from "../store/types/auth";
+import { IAppState } from "../store";
 
 export const loginStart = (): IActionAuthStart => {
   return {
@@ -42,24 +42,10 @@ export const loginFail = (error: string): IActionAuthFail => {
   };
 };
 
-export const logout = (): IActionAuthLogout => {
-  localStorage.removeItem("token");
-  localStorage.removeItem("expirationDate");
-  localStorage.removeItem("userId");
-  return {
-    type: AUTH_LOGOUT,
-    payload: {
-      token: "",
-      userId: "",
-      isAuthenticated: false
-    }
-  };
-};
-
 export const login = (
   email: string,
   password: string
-): ThunkAction<void, IAppState, null, any> => async dispatch => {
+): ThunkAction<void, IAppState, null, Action<string>> => async dispatch => {
   dispatch(loginStart());
   try {
     const res = await axios.post("http://localhost:3001/users/login", {
@@ -68,10 +54,6 @@ export const login = (
     });
     const userId = res.data._id;
     const token = res.headers["x-auth"];
-    console.log("User id: ", userId);
-    console.log("User token: ", token);
-    // localStorage.setItem("token", token);
-    // localStorage.setItem("userId", userId);
     dispatch(loginSuccess(userId, token));
   } catch (err) {
     if (err.response.status === 400) {
@@ -82,6 +64,17 @@ export const login = (
       dispatch(loginFail("Server error"));
     }
   }
+};
+
+export const logout = (): IActionAuthLogout => {
+  return {
+    type: AUTH_LOGOUT,
+    payload: {
+      token: "",
+      userId: "",
+      isAuthenticated: false
+    }
+  };
 };
 
 export const registerStart = (): IActionAuthStart => {
@@ -116,7 +109,7 @@ export const registerFail = (error: string): IActionAuthFail => {
 export const register = (
   email: string,
   password: string
-): ThunkAction<void, IAppState, null, any> => async dispatch => {
+): ThunkAction<void, IAppState, null, Action<string>> => async dispatch => {
   dispatch(registerStart());
   try {
     const res = await axios.post("http://localhost:3001/users/", {
@@ -125,10 +118,6 @@ export const register = (
     });
     const userId = res.data._id;
     const token = res.headers["x-auth"];
-    console.log("User id: ", userId);
-    console.log("User token: ", token);
-    // localStorage.setItem("token", token);
-    // localStorage.setItem("userId", userId);
     dispatch(registerSuccess(userId, token));
   } catch (err) {
     // TODO: Add correct http codes and errors
