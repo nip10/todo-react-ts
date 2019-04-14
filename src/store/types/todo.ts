@@ -22,4 +22,26 @@ export interface IActionTodoAddFail {
   };
 }
 
-export type TodoActionTypes = IActionTodoAddSuccess | IActionTodoAddFail;
+export const TODO_REMOVE_SUCCESS = "TODO_REMOVE_SUCCESS";
+
+export interface IActionTodoRemoveSuccess {
+  type: typeof TODO_REMOVE_SUCCESS;
+  payload: {
+    id: number;
+  };
+}
+
+export const TODO_REMOVE_FAIL = "TODO_REMOVE_FAIL";
+
+export interface IActionTodoRemoveFail {
+  type: typeof TODO_REMOVE_FAIL;
+  payload: {
+    error: string;
+  };
+}
+
+export type TodoActionTypes =
+  | IActionTodoAddSuccess
+  | IActionTodoAddFail
+  | IActionTodoRemoveSuccess
+  | IActionTodoRemoveFail;
