@@ -9,13 +9,17 @@ import {
   TODO_REMOVE_SUCCESS,
   IActionTodoRemoveSuccess,
   TODO_REMOVE_FAIL,
-  IActionTodoRemoveFail
+  IActionTodoRemoveFail,
+  IActionTodoToggleSuccess,
+  TODO_TOGGLE_SUCCESS,
+  IActionTodoToggleFail,
+  TODO_TOGGLE_FAIL
 } from "../store/types/todo";
 import { IAppState } from "../store";
 
 export const addTodoLocal = (text: string) => (dispatch: any) => {
   // We can assume the user is NOT authenticated when it gets here
-  dispatch(addTodoSuccess(text));
+  dispatch(addTodoSuccess(null, text));
 };
 
 export const addTodoDb = (
@@ -26,21 +30,25 @@ export const addTodoDb = (
 ) => {
   // We can assume the user is authenticated when it gets here
   try {
-    await axios.post(
+    const todo = await axios.post(
       "http://localhost:3001/todos",
       { text },
       { headers: { "x-auth": getState().auth.token } }
     );
-    dispatch(addTodoSuccess(text));
+    dispatch(addTodoSuccess(todo.data._id, text));
   } catch (err) {
     dispatch(addTodoFail(err));
   }
 };
 
-export const addTodoSuccess = (text: string): IActionTodoAddSuccess => {
+export const addTodoSuccess = (
+  id: string | null,
+  text: string
+): IActionTodoAddSuccess => {
   return {
     type: TODO_ADD_SUCCESS,
     payload: {
+      id,
       text
     }
   };
@@ -55,31 +63,29 @@ export const addTodoFail = (error: string): IActionTodoAddFail => {
   };
 };
 
-export const removeTodoLocal = (id: number) => (dispatch: any) => {
+export const removeTodoLocal = (id: string) => (dispatch: any) => {
   // We can assume the user is NOT authenticated when it gets here
   dispatch(removeTodoSuccess(id));
 };
 
 export const removeTodoDb = (
-  id: number
+  id: string
 ): ThunkAction<void, IAppState, null, Action<string>> => async (
   dispatch,
   getState
 ) => {
   // We can assume the user is authenticated when it gets here
   try {
-    await axios.post(
-      "http://localhost:3001/todos",
-      { id },
-      { headers: { "x-auth": getState().auth.token } }
-    );
+    await axios.delete(`http://localhost:3001/todos/${id}`, {
+      headers: { "x-auth": getState().auth.token }
+    });
     dispatch(removeTodoSuccess(id));
   } catch (err) {
     dispatch(removeTodoFail(err));
   }
 };
 
-export const removeTodoSuccess = (id: number): IActionTodoRemoveSuccess => {
+export const removeTodoSuccess = (id: string): IActionTodoRemoveSuccess => {
   return {
     type: TODO_REMOVE_SUCCESS,
     payload: {
@@ -91,6 +97,46 @@ export const removeTodoSuccess = (id: number): IActionTodoRemoveSuccess => {
 export const removeTodoFail = (error: string): IActionTodoRemoveFail => {
   return {
     type: TODO_REMOVE_FAIL,
+    payload: {
+      error
+    }
+  };
+};
+
+export const toggleTodoLocal = (id: string) => (dispatch: any) => {
+  // We can assume the user is NOT authenticated when it gets here
+  dispatch(removeTodoSuccess(id));
+};
+
+export const toggleTodoDb = (
+  id: string
+): ThunkAction<void, IAppState, null, Action<string>> => async (
+  dispatch,
+  getState
+) => {
+  // We can assume the user is authenticated when it gets here
+  try {
+    await axios.patch(`http://localhost:3001/todos/${id}`, {
+      headers: { "x-auth": getState().auth.token }
+    });
+    dispatch(removeTodoSuccess(id));
+  } catch (err) {
+    dispatch(removeTodoFail(err));
+  }
+};
+
+export const toggleTodoSuccess = (id: string): IActionTodoToggleSuccess => {
+  return {
+    type: TODO_TOGGLE_SUCCESS,
+    payload: {
+      id
+    }
+  };
+};
+
+export const toggleTodoFail = (error: string): IActionTodoToggleFail => {
+  return {
+    type: TODO_TOGGLE_FAIL,
     payload: {
       error
     }

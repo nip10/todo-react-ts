@@ -27,8 +27,7 @@ export const loginSuccess = (
     type: AUTH_SUCCESS,
     payload: {
       token,
-      userId,
-      isAuthenticated: true
+      userId
     }
   };
 };
@@ -71,8 +70,7 @@ export const logout = (): IActionAuthLogout => {
     type: AUTH_LOGOUT,
     payload: {
       token: "",
-      userId: "",
-      isAuthenticated: false
+      userId: ""
     }
   };
 };
@@ -84,15 +82,14 @@ export const registerStart = (): IActionAuthStart => {
 };
 
 export const registerSuccess = (
-  token: string,
-  userId: string
+  userId: string,
+  token: string
 ): IActionAuthSuccess => {
   return {
     type: AUTH_SUCCESS,
     payload: {
       token,
-      userId,
-      isAuthenticated: true
+      userId
     }
   };
 };

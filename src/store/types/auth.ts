@@ -19,7 +19,6 @@ export interface IActionAuthSuccess {
   payload: {
     token: IAuthState["token"];
     userId: IAuthState["userId"];
-    isAuthenticated: IAuthState["isAuthenticated"];
   };
 }
 
@@ -39,7 +38,6 @@ export interface IActionAuthLogout {
   payload: {
     token: IAuthState["token"];
     userId: IAuthState["userId"];
-    isAuthenticated: IAuthState["isAuthenticated"];
   };
 }
 

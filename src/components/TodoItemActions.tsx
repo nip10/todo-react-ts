@@ -7,12 +7,17 @@ import {
   faTimes,
   faSave
 } from "@fortawesome/free-solid-svg-icons";
+import { Action } from "redux";
+import { connect } from "react-redux";
+import { ThunkDispatch } from "redux-thunk";
+import { removeTodoDb, removeTodoLocal } from "../actions/todo";
 
 interface ITodoItemActionsProps {
-  id: number;
+  id: string;
   isEditing: boolean;
-  // removeTodo: (todoId: number) => void;
-  // editTodo: (todoId: number, text: string) => void;
+  isAuthenticated: boolean;
+  removeTodoDb: (id: string) => void;
+  removeTodoLocal: (id: string) => void;
   toggleTodo?: (todoId: number) => void;
   toggleIsEditing: () => void;
   textInput?: React.RefObject<HTMLInputElement>;
@@ -33,12 +38,16 @@ const TodoItemActions = (props: ITodoItemActionsProps) => {
     if (!props.toggleTodo) {
       return;
     }
-    props.toggleTodo(props.id);
+    // props.toggleTodo(props.id);
   };
 
   const removeTodoHandler = (e: React.MouseEvent<HTMLElement>): void => {
     e.preventDefault();
-    // props.removeTodo(props.id);
+    if (props.isAuthenticated) {
+      props.removeTodoDb(props.id);
+    } else {
+      props.removeTodoLocal(props.id);
+    }
   };
 
   const editTodoHandler = (e: React.MouseEvent<HTMLElement>): void => {
@@ -87,4 +96,16 @@ const TodoItemActions = (props: ITodoItemActionsProps) => {
     : renderEditAndRemoveButtons();
 };
 
-export default TodoItemActions;
+const mapDispatchToProps = (dispatch: ThunkDispatch<any, null, Action>) => ({
+  removeTodoDb: (id: string) => dispatch(removeTodoDb(id)),
+  removeTodoLocal: (id: string) => dispatch(removeTodoLocal(id))
+});
+
+const mapStateToProps = ({ auth }: any) => ({
+  isAuthenticated: auth.isAuthenticated
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TodoItemActions);

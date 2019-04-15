@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { colors } from "./../theme/index";
-import { Dispatch, Action } from "redux";
+import { Action } from "redux";
 import { connect } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
 import { addTodoDb, addTodoLocal } from "../actions/todo";
