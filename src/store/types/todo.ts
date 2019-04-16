@@ -59,10 +59,31 @@ export interface IActionTodoToggleFail {
   };
 }
 
+export const TODO_EDIT_SUCCESS = "TODO_EDIT_SUCCESS";
+
+export interface IActionTodoEditSuccess {
+  type: typeof TODO_EDIT_SUCCESS;
+  payload: {
+    id: string;
+    text: string;
+  };
+}
+
+export const TODO_EDIT_FAIL = "TODO_EDIT_FAIL";
+
+export interface IActionTodoEditFail {
+  type: typeof TODO_EDIT_FAIL;
+  payload: {
+    error: string;
+  };
+}
+
 export type TodoActionTypes =
   | IActionTodoAddSuccess
   | IActionTodoAddFail
   | IActionTodoRemoveSuccess
   | IActionTodoRemoveFail
   | IActionTodoToggleSuccess
-  | IActionTodoToggleFail;
+  | IActionTodoToggleFail
+  | IActionTodoEditSuccess
+  | IActionTodoEditFail;

@@ -83,7 +83,7 @@ const TodoItem = (props: ITodoItemProps) => {
         // editTodo={props.editTodo}
         isEditing={isEditing}
         toggleIsEditing={setIsEditing}
-        // textInput={todoText}
+        textInput={todoText}
       />
     </Wrapper>
   );

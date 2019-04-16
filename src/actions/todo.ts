@@ -12,10 +12,14 @@ import {
   IActionTodoRemoveSuccess,
   TODO_REMOVE_FAIL,
   IActionTodoRemoveFail,
-  IActionTodoToggleSuccess,
   TODO_TOGGLE_SUCCESS,
+  IActionTodoToggleSuccess,
+  TODO_TOGGLE_FAIL,
   IActionTodoToggleFail,
-  TODO_TOGGLE_FAIL
+  TODO_EDIT_SUCCESS,
+  IActionTodoEditSuccess,
+  TODO_EDIT_FAIL,
+  IActionTodoEditFail
 } from "../store/types/todo";
 import { IAppState } from "../store";
 
@@ -155,6 +159,55 @@ export const toggleTodoSuccess = (id: string): IActionTodoToggleSuccess => {
 export const toggleTodoFail = (error: string): IActionTodoToggleFail => {
   return {
     type: TODO_TOGGLE_FAIL,
+    payload: {
+      error
+    }
+  };
+};
+
+export const editTodoLocal = (id: string, text: string) => (dispatch: any) => {
+  // We can assume the user is NOT authenticated when it gets here
+  dispatch(editTodoSuccess(id, text));
+};
+
+export const editTodoDb = (
+  id: string,
+  text: string
+): ThunkAction<void, IAppState, null, Action<string>> => async (
+  dispatch,
+  getState
+) => {
+  // We can assume the user is authenticated when it gets here
+  try {
+    await axios.patch(
+      `http://localhost:3001/todos/${id}`,
+      { text },
+      {
+        headers: { "x-auth": getState().auth.token }
+      }
+    );
+    dispatch(editTodoSuccess(id, text));
+  } catch (err) {
+    dispatch(editTodoFail(err));
+  }
+};
+
+export const editTodoSuccess = (
+  id: string,
+  text: string
+): IActionTodoEditSuccess => {
+  return {
+    type: TODO_EDIT_SUCCESS,
+    payload: {
+      id,
+      text
+    }
+  };
+};
+
+export const editTodoFail = (error: string): IActionTodoEditFail => {
+  return {
+    type: TODO_EDIT_FAIL,
     payload: {
       error
     }

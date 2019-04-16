@@ -11,10 +11,14 @@ import {
   IActionTodoRemoveSuccess,
   TODO_TOGGLE_SUCCESS,
   TODO_TOGGLE_FAIL,
-  IActionTodoToggleSuccess
+  IActionTodoToggleSuccess,
+  TODO_EDIT_SUCCESS,
+  TODO_EDIT_FAIL,
+  IActionTodoEditSuccess
   // IActionTodoAddFail
   // IActionTodoRemoveFail
   // IActionTodoToggleFail
+  // IActionTodoEditFail
 } from "../store/types/todo";
 
 const initialState: ITodoState = {
@@ -82,6 +86,25 @@ const todoToggleSuccess = (
 //   });
 // };
 
+const todoEditSuccess = (state: ITodoState, action: IActionTodoEditSuccess) => {
+  const updatedTodos = state.items.map(todo => {
+    if (todo.id === action.payload.id) {
+      // Change the previous completed state and set/clear the completedAt date
+      return updateObject(todo, {
+        text: action.payload.text
+      });
+    }
+    return todo;
+  });
+  return { items: updatedTodos };
+};
+
+// const todoEditFail = (state: ITodoState, action: IActionTodoEditFail) => {
+//   return updateObject(state, {
+//     error: action.payload.error
+//   });
+// };
+
 const reducer = (state = initialState, action: TodoActionTypes): ITodoState => {
   switch (action.type) {
     case TODO_ADD_SUCCESS:
@@ -101,6 +124,12 @@ const reducer = (state = initialState, action: TodoActionTypes): ITodoState => {
     case TODO_TOGGLE_FAIL:
       console.error("Error:", action.payload.error);
       // return TODO_TOGGLE_FAIL(state, action);
+      return state;
+    case TODO_EDIT_SUCCESS:
+      return todoEditSuccess(state, action);
+    case TODO_EDIT_FAIL:
+      console.error("Error:", action.payload.error);
+      // return TODO_EDIT_FAIL(state, action);
       return state;
     default:
       return state;

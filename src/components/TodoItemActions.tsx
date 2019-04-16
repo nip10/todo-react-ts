@@ -14,19 +14,23 @@ import {
   removeTodoDb,
   removeTodoLocal,
   toggleTodoLocal,
-  toggleTodoDb
+  toggleTodoDb,
+  editTodoDb,
+  editTodoLocal
 } from "../actions/todo";
 
 interface ITodoItemActionsProps {
   id: string;
   isEditing: boolean;
   isAuthenticated: boolean;
+  textInput?: string;
   removeTodoDb: (id: string) => void;
   removeTodoLocal: (id: string) => void;
   toggleTodoDb: (id: string) => void;
   toggleTodoLocal: (id: string) => void;
   toggleIsEditing: (isEditing: boolean) => void;
-  textInput?: React.RefObject<HTMLInputElement>;
+  editTodoDb: (id: string, text: string) => void;
+  editTodoLocal: (id: string, text: string) => void;
 }
 
 const Wrapper = styled.div`
@@ -59,16 +63,13 @@ const TodoItemActions = (props: ITodoItemActionsProps) => {
 
   const editTodoHandler = (e: React.MouseEvent<HTMLElement>): void => {
     e.preventDefault();
-    if (!props.textInput) {
-      return;
-    }
-    const todoRef = props.textInput.current;
-    if (todoRef) {
-      if (!todoRef.value.trim()) {
-        return;
+    const updatedTodoText = props.textInput;
+    if (updatedTodoText && updatedTodoText.trim().length > 0) {
+      if (props.isAuthenticated) {
+        props.editTodoDb(props.id, updatedTodoText);
+      } else {
+        props.editTodoLocal(props.id, updatedTodoText);
       }
-      // props.editTodo(props.id, todoRef.value);
-      todoRef.value = "";
     }
     props.toggleIsEditing(false);
   };
@@ -107,7 +108,9 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<any, null, Action>) => ({
   removeTodoDb: (id: string) => dispatch(removeTodoDb(id)),
   removeTodoLocal: (id: string) => dispatch(removeTodoLocal(id)),
   toggleTodoDb: (id: string) => dispatch(toggleTodoDb(id)),
-  toggleTodoLocal: (id: string) => dispatch(toggleTodoLocal(id))
+  toggleTodoLocal: (id: string) => dispatch(toggleTodoLocal(id)),
+  editTodoDb: (id: string, text: string) => dispatch(editTodoDb(id, text)),
+  editTodoLocal: (id: string, text: string) => dispatch(editTodoLocal(id, text))
 });
 
 const mapStateToProps = ({ auth }: any) => ({
