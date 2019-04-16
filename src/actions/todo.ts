@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Action } from "redux";
 import { ThunkAction } from "redux-thunk";
+import get from "lodash/get";
 import {
   TODO_ADD_SUCCESS,
   IActionTodoAddSuccess,
@@ -17,9 +18,16 @@ import {
 } from "../store/types/todo";
 import { IAppState } from "../store";
 
-export const addTodoLocal = (text: string) => (dispatch: any) => {
+export const addTodoLocal = (text: string) => (
+  dispatch: any,
+  getState: any
+) => {
   // We can assume the user is NOT authenticated when it gets here
-  dispatch(addTodoSuccess(null, text));
+  const currentTodos = getState().todos.items;
+  // Create a new id by incrementing the last saved todo id.
+  // This is only required for local todos, since they don't get an id from the db when inserted.
+  const newTodoId = get(currentTodos[currentTodos.length - 1], "id", 0) + 1;
+  dispatch(addTodoSuccess(newTodoId, text));
 };
 
 export const addTodoDb = (

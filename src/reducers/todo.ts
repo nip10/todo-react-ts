@@ -61,11 +61,19 @@ const todoToggleSuccess = (
   state: ITodoState,
   action: IActionTodoToggleSuccess
 ) => {
-  const todoIndex = state.items.findIndex(
-    todo => todo.id === action.payload.id
-  );
-  state.items[todoIndex].completed = !state.items[todoIndex].completed;
-  return state;
+  const updatedTodos = state.items.map(todo => {
+    if (todo.id === action.payload.id) {
+      // Change the previous completed state and set/clear the completedAt date
+      return updateObject(todo, {
+        completed: !todo.completed,
+        completedAt: todo.completed
+          ? null
+          : format(new Date(), "DD-MM-YYYY HH:mm")
+      });
+    }
+    return todo;
+  });
+  return { items: updatedTodos };
 };
 
 // const todoToggleFail = (state: ITodoState, action: IActionTodoToggleFail) => {

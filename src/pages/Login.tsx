@@ -40,8 +40,6 @@ const Login = ({ login }: { login: any }) => {
   const [password, setPassword] = useState("");
   const onSubmitHandler = (e: React.FormEvent<EventTarget>): void => {
     e.preventDefault();
-    console.log("Email:", email);
-    console.log("Password:", password);
     login(email, password);
   };
   return (

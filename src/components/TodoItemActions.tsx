@@ -10,7 +10,12 @@ import {
 import { Action } from "redux";
 import { connect } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
-import { removeTodoDb, removeTodoLocal } from "../actions/todo";
+import {
+  removeTodoDb,
+  removeTodoLocal,
+  toggleTodoLocal,
+  toggleTodoDb
+} from "../actions/todo";
 
 interface ITodoItemActionsProps {
   id: string;
@@ -18,8 +23,9 @@ interface ITodoItemActionsProps {
   isAuthenticated: boolean;
   removeTodoDb: (id: string) => void;
   removeTodoLocal: (id: string) => void;
-  toggleTodo?: (todoId: number) => void;
-  toggleIsEditing: () => void;
+  toggleTodoDb: (id: string) => void;
+  toggleTodoLocal: (id: string) => void;
+  toggleIsEditing: (isEditing: boolean) => void;
   textInput?: React.RefObject<HTMLInputElement>;
 }
 
@@ -35,10 +41,11 @@ const IconWrapper = styled.span`
 const TodoItemActions = (props: ITodoItemActionsProps) => {
   const toggleTodoHandler = (e: React.MouseEvent<HTMLElement>): void => {
     e.preventDefault();
-    if (!props.toggleTodo) {
-      return;
+    if (props.isAuthenticated) {
+      props.toggleTodoDb(props.id);
+    } else {
+      props.toggleTodoLocal(props.id);
     }
-    // props.toggleTodo(props.id);
   };
 
   const removeTodoHandler = (e: React.MouseEvent<HTMLElement>): void => {
@@ -63,12 +70,12 @@ const TodoItemActions = (props: ITodoItemActionsProps) => {
       // props.editTodo(props.id, todoRef.value);
       todoRef.value = "";
     }
-    props.toggleIsEditing();
+    props.toggleIsEditing(false);
   };
 
   const renderEditAndRemoveButtons = () => (
     <Wrapper>
-      <IconWrapper onClick={props.toggleIsEditing}>
+      <IconWrapper onClick={e => props.toggleIsEditing(true)}>
         <FontAwesomeIcon icon={faPen} color="grey" />
       </IconWrapper>
       <IconWrapper onClick={removeTodoHandler}>
@@ -85,7 +92,7 @@ const TodoItemActions = (props: ITodoItemActionsProps) => {
       <IconWrapper onClick={editTodoHandler}>
         <FontAwesomeIcon icon={faSave} color="grey" />
       </IconWrapper>
-      <IconWrapper onClick={props.toggleIsEditing}>
+      <IconWrapper onClick={e => props.toggleIsEditing(false)}>
         <FontAwesomeIcon icon={faTimes} color="red" />
       </IconWrapper>
     </Wrapper>
@@ -98,7 +105,9 @@ const TodoItemActions = (props: ITodoItemActionsProps) => {
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<any, null, Action>) => ({
   removeTodoDb: (id: string) => dispatch(removeTodoDb(id)),
-  removeTodoLocal: (id: string) => dispatch(removeTodoLocal(id))
+  removeTodoLocal: (id: string) => dispatch(removeTodoLocal(id)),
+  toggleTodoDb: (id: string) => dispatch(toggleTodoDb(id)),
+  toggleTodoLocal: (id: string) => dispatch(toggleTodoLocal(id))
 });
 
 const mapStateToProps = ({ auth }: any) => ({
