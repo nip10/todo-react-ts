@@ -105,7 +105,7 @@ export const removeTodoFail = (error: string): IActionTodoRemoveFail => {
 
 export const toggleTodoLocal = (id: string) => (dispatch: any) => {
   // We can assume the user is NOT authenticated when it gets here
-  dispatch(removeTodoSuccess(id));
+  dispatch(toggleTodoSuccess(id));
 };
 
 export const toggleTodoDb = (
@@ -119,9 +119,9 @@ export const toggleTodoDb = (
     await axios.patch(`http://localhost:3001/todos/${id}`, {
       headers: { "x-auth": getState().auth.token }
     });
-    dispatch(removeTodoSuccess(id));
+    dispatch(toggleTodoSuccess(id));
   } catch (err) {
-    dispatch(removeTodoFail(err));
+    dispatch(toggleTodoFail(err));
   }
 };
 
