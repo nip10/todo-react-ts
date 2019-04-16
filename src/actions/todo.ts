@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Action } from "redux";
 import { ThunkAction } from "redux-thunk";
+import format from "date-fns/format";
 import get from "lodash/get";
 import {
   TODO_ADD_SUCCESS,
@@ -124,7 +125,16 @@ export const toggleTodoDb = (
 ) => {
   // We can assume the user is authenticated when it gets here
   try {
-    await axios.patch(`http://localhost:3001/todos/${id}`, {
+    const todoIndex = getState().todos.items.findIndex(todo => todo.id === id);
+    const todo = getState().todos.items[todoIndex];
+    const updatedTodo = {
+      ...todo,
+      completed: !todo.completed,
+      completedAt: todo.completed
+        ? null
+        : format(new Date(), "DD-MM-YYYY HH:mm")
+    };
+    await axios.patch(`http://localhost:3001/todos/${id}`, updatedTodo, {
       headers: { "x-auth": getState().auth.token }
     });
     dispatch(toggleTodoSuccess(id));
