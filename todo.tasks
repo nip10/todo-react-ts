@@ -41,12 +41,13 @@ Roadmap:
     IndexedDB
 
 Misc:
-  ☐ Authenticated users shouldnt be allowed to go to the login or register page
+  ✔ Authenticated users shouldnt be allowed to go to the login or register page @done(19-04-17 12:07)
   ✔ Figure out why the timestamps are no longer showing @done(19-04-16 16:42)
   ☐ useRef for inputs
   ☐ Consider an HOC for editing a todo
   ☐ The completedAt field is updated on the server but im also setting it on the client.
     I dont think this is a problem since the server will overwrite that value.
+  ☐ Make different types/interfaces for Todos
 
 Deploy:
   ☐ Add google analytics @low
