@@ -1,97 +1,38 @@
 Roadmap:
-  ☐ v2 - Add redux @today
-    ☐ Create actions/reducers/types
-      ✔ Auth @done(19-04-12 18:22)
-      ☐ Todos
-        ✔ Add @done(19-04-12 18:25)
-          ✔ Add to db @done(19-04-12 18:25)
-          ✔ Add to localstorage @done(19-04-12 18:25)
-        ✔ Remove @done(19-04-15 23:49)
-          ✔ Remove from db @done(19-04-15 23:49)
-          ✔ Remove from localstorage @done(19-04-15 23:49)
-        ☐ Edit
-          ☐ Update db
-          ☐ Update localstorage
-        ☐ Toggle
-          ☐ Update db
-          ☐ Update localstorage
-        All the actions on the db must be done on localstorage as well (the opposite doesnt apply)
-  ☐ v3 - Add todo-api
-    ✔ Add authentication @done(19-04-16 17:22)
-      - This HAS to be the 1st step on adding the api because we can't do anything without being authenticated
-      Actions need to be separated from authenticated and unauthenticated user.
-      The only difference between those users is where the data is being saved (localstorage -
-    only available on that device; db - available everywhere)
-      Note that authentication is already built into the backend using JWT.
-      ✔ Signup @done(19-04-16 17:22)
-      ✔ Login @done(19-04-16 17:22)
-    Note: In this version, we (kinda) stop using localstorage (to query - data is still updated).
-    ☐ When the page loads, check if there are todo's in the database
-      ☐ Figure out what to do with todos on localstorage + db
-        First thoughts: show both but separate them on the UI
-      ☐ If yes, add them to the UI
-      ☐ If not, show a message "Add your first todo !"
-    ☐ Every action (add/remove/edit/toggle) should (also) be saved to the database
-  ☐ v4 - Use both localstorage AND database
-    ☐ Add a timestamp to localstorage
-    ☐ When loading the page, check if the timestamp is more than X mins/hours
-      ☐ If yes, go to the DB
-      ☐ If not, just get the items from localstorage
-  ☐ v5 - Add offline persistance
-    IndexedDB
+☐ v3 - Add todo-api @today
+  ✔ Add authentication @done(19-04-16 17:22)
+    - This HAS to be the 1st step on adding the api because we can't do anything without being authenticated
+    Actions need to be separated from authenticated and unauthenticated user.
+    The only difference between those users is where the data is being saved (localstorage -
+  only available on that device; db - available everywhere)
+    Note that authentication is already built into the backend using JWT.
+    ✔ Signup @done(19-04-16 17:22)
+    ✔ Login @done(19-04-16 17:22)
+  Note: In this version, we (kinda) stop using localstorage (to query - data is still updated).
+  ☐ When the page loads, check if there are todo's in the database
+    ☐ Figure out what to do with todos on localstorage + db
+      First thoughts: show both but separate them on the UI
+    ☐ If yes, add them to the UI
+    ☐ If not, show a message "Add your first todo !"
+  ☐ Every action (add/remove/edit/toggle) should (also) be saved to the database
+☐ v4 - Use both localstorage AND database
+  ☐ Add a timestamp to localstorage
+  ☐ When loading the page, check if the timestamp is more than X mins/hours
+    ☐ If yes, go to the DB
+    ☐ If not, just get the items from localstorage
+☐ v5 - Add offline persistance
+  IndexedDB
 
 Misc:
   ✔ Authenticated users shouldnt be allowed to go to the login or register page @done(19-04-17 12:07)
   ✔ Figure out why the timestamps are no longer showing @done(19-04-16 16:42)
-  ☐ useRef for inputs
-  ☐ Consider an HOC for editing a todo
+  ✘ useRef for inputs @cancelled(19-04-18 11:52)
+  ✘ Consider an HOC for editing a todo @cancelled(19-04-18 11:52)
   ☐ The completedAt field is updated on the server but im also setting it on the client.
     I dont think this is a problem since the server will overwrite that value.
   ☐ Make different types/interfaces for Todos
+  ✔ Clear addtodo input after adding a todo @done(19-04-18 11:52)
 
 Deploy:
   ☐ Add google analytics @low
-    ☐ Look for a react component to get extra data ?
-
-☐ Code snippet for axios
-  interface Ifoo {
-    data: {
-      todos: ITodoApi[],
-    }
-  }
-
-  interface ITodoApi {
-    _id: number,
-    text: string,
-    completed: boolean,
-    completedAt: string,
-  }
-
-  export const Todos: ITodos = {
-    items: [],
-    // populate() {
-    //   if (localStorage.hasOwnProperty('todos')) {
-    //     const todos = localStorage.getItem('todos');
-    //     if (todos) {
-    //       try {
-    //         this.items = JSON.parse(todos);
-    //       } catch (e) {
-    //         this.items = [];
-    //       }
-    //     }
-    //   }
-    // },
-    async populate() {
-      const { data } :Ifoo = await axios.get('https://jsonplaceholder.typicode.com/todos');
-      // const foo: ITodoApi = response.data;
-      console.log('data: ', data);
-      this.items = data.todos.map(todo => ({
-        id: todo._id,
-        text: todo.text,
-        completed: todo.completed,
-        completedAt: todo.completedAt,
-        createdAt: '',
-        updatedAt: '',
-      }));
-      this.items = [];
-    },
+    ✘ Look for a react component to get extra data ? @cancelled(19-04-18 11:53)
