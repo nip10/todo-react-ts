@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import styled from "styled-components";
-import { colors } from "./../theme/index";
-import { Action } from "redux";
+import { Dispatch, Action } from "redux";
 import { connect } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
-import get from "lodash/get";
-import { addTodoDb, addTodoLocal } from "../actions/todo";
+import styled from "styled-components";
+import { colors } from "./../theme/index";
+import { login } from "../actions/auth";
 
 const Input = styled.input`
   padding: 0.5em;
@@ -36,43 +35,39 @@ const Form = styled.form`
   padding: 1em 0;
 `;
 
-const AddTodo = ({ addTodoDb, addTodoLocal, isAuthenticated }: any) => {
-  const [todo, setTodo] = useState("");
-
+const Login = ({ login }: { login: any }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const onSubmitHandler = (e: React.FormEvent<EventTarget>): void => {
     e.preventDefault();
-    if (isAuthenticated) {
-      addTodoDb(todo);
-    } else {
-      addTodoLocal(todo);
-    }
-    setTodo("");
+    login(email, password);
   };
-
   return (
     <Form onSubmit={onSubmitHandler}>
       <Input
-        type="text"
-        placeholder="Task"
+        type="email"
+        placeholder="Email"
+        name="email"
         required
-        value={todo}
-        onChange={e => setTodo(e.target.value)}
+        onChange={e => setEmail(e.target.value)}
       />
-      <Button type="submit">Add Todo</Button>
+      <Input
+        type="password"
+        placeholder="Password"
+        name="password"
+        required
+        onChange={e => setPassword(e.target.value)}
+      />
+      <Button type="submit">Submit</Button>
     </Form>
   );
 };
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<any, null, Action>) => ({
-  addTodoDb: (todo: string) => dispatch(addTodoDb(todo)),
-  addTodoLocal: (todo: string) => dispatch(addTodoLocal(todo))
-});
-
-const mapStateToProps = ({ auth }: any) => ({
-  isAuthenticated: auth.isAuthenticated
+  login: (email: string, password: string) => dispatch(login(email, password))
 });
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
-)(AddTodo);
+)(Login);

@@ -1,20 +1,20 @@
-import React, { Component } from 'react';
-import styled from 'styled-components';
-import TodoItemActions from './TodoItemActions';
-import { ITodo } from './../types/todo';
+import React, { useState, useRef } from "react";
+import styled from "styled-components";
+import TodoItemActions from "./TodoItemActions";
+import { ITodo } from "./../types/todo";
 
 interface ITodoItemProps extends ITodo {
-  removeTodo: (todoId: number) => void,
-  editTodo: (todoId: number, text: string) => void,
-  toggleTodo: (todoId: number) => void,
+  // removeTodo: (todoId: number) => void;
+  // editTodo: (todoId: number, text: string) => void;
+  // toggleTodo: (todoId: number) => void;
 }
 
 interface ITodoItemWrapperProps {
-  completed?: boolean,
+  completed?: boolean;
 }
 
 interface ITodoItemState {
-  isEditing: boolean,
+  isEditing: boolean;
 }
 
 const Wrapper = styled.li`
@@ -25,8 +25,10 @@ const Wrapper = styled.li`
   text-align: justify;
   /* There's no need to select the icons because they are svg's which are not affected by text-decoration */
   > :not(span) {
-    text-decoration: ${(props: ITodoItemWrapperProps) => props.completed ? 'line-through' : 'none'};
-    opacity: ${(props: ITodoItemWrapperProps) => props.completed ? '0.7' : '1'};
+    text-decoration: ${(props: ITodoItemWrapperProps) =>
+      props.completed ? "line-through" : "none"};
+    opacity: ${(props: ITodoItemWrapperProps) =>
+      props.completed ? "0.7" : "1"};
   }
 `;
 
@@ -39,98 +41,69 @@ const TodoTimestamp = styled.span`
   color: rgba(0, 0, 0, 0.6);
 `;
 
-export default class TodoItem extends Component<ITodoItemProps, ITodoItemState> {
-  constructor(props: ITodoItemProps) {
-    super(props);
-    this.state = {
-      isEditing: false,
-    }
-    this.textInput = React.createRef();
-  }
+const TodoItem = (props: ITodoItemProps) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [todoText, setTodoText] = useState(props.text);
+  // const todoTextInput = useRef(null);
 
-  private textInput: React.RefObject<HTMLInputElement>;
-
-  private toggleIsEditing = () => {
-    this.setState(prevState => ({ isEditing: !prevState.isEditing }));
-  }
-
-  private onSubmitHandler = (e: React.FormEvent<EventTarget>): void => {
+  const onSubmitHandler = (e: React.FormEvent<EventTarget>): void => {
     e.preventDefault();
-    const todoRef = this.textInput.current;
-    if (todoRef) {
-      if (!todoRef.value.trim()) {
-        return;
-      }
-      this.props.editTodo(this.props.id, todoRef.value);
-      todoRef.value = '';
+    if (todoText.trim().length > 0) {
+      // props.editTodo(props.id, todoText);
+      // setTodoText("");  // Not sure this is required
+      // return;
     }
-    this.toggleIsEditing();
-  }
+    setIsEditing(false);
+  };
 
-  /**
-   * Render the timestamp of the creation/update of the todo
-   *
-   * @private
-   * @memberof TodoItem
-   * @return React Element
-   */
-  private renderTimestamp = () => {
+  const renderTimestamp = () => {
+    const { updatedAt, createdAt } = props;
     let timestampMessage;
-    if (this.props.updatedAt) {
-      timestampMessage = this.props.updatedAt + ' - edited';
+    if (updatedAt && updatedAt.length > 0) {
+      timestampMessage = updatedAt + " - edited";
     } else {
-      timestampMessage = this.props.createdAt;
+      timestampMessage = createdAt;
     }
-    return <TodoTimestamp>{timestampMessage}</TodoTimestamp>
-  }
+    return <TodoTimestamp>{timestampMessage}</TodoTimestamp>;
+  };
 
-  /**
-   * Render for editing mode
-   *
-   * @private
-   * @memberof TodoItem
-   */
-  private renderEditingTodo = () => (
+  const renderEditingTodo = () => (
     <Wrapper>
-      <form onSubmit={this.onSubmitHandler}>
-        <input type="text" defaultValue={this.props.text} ref={this.textInput} autoFocus={true} />
+      <form onSubmit={onSubmitHandler}>
+        <input
+          type="text"
+          defaultValue={props.text}
+          onChange={e => setTodoText(e.target.value)}
+          autoFocus={true}
+        />
       </form>
       <TodoItemActions
-        id={this.props.id}
-        removeTodo={this.props.removeTodo}
-        editTodo={this.props.editTodo}
-        isEditing={this.state.isEditing}
-        toggleIsEditing={this.toggleIsEditing}
-        textInput={this.textInput}
+        id={props.id}
+        // removeTodo={props.removeTodo}
+        // editTodo={props.editTodo}
+        isEditing={isEditing}
+        toggleIsEditing={setIsEditing}
+        textInput={todoText}
       />
     </Wrapper>
-  )
+  );
 
-  /**
-   * Render for normal mode
-   *
-   * @private
-   * @memberof TodoItem
-   */
-  private renderNormalTodo = () => (
-    <Wrapper completed={this.props.completed}>
-      <TodoText >
-        {this.props.text}
-      </TodoText>
-      {this.renderTimestamp()}
+  const renderNormalTodo = () => (
+    <Wrapper completed={props.completed}>
+      <TodoText>{props.text}</TodoText>
+      {renderTimestamp()}
       <TodoItemActions
-        id={this.props.id}
-        removeTodo={this.props.removeTodo}
-        editTodo={this.props.editTodo}
-        isEditing={this.state.isEditing}
-        toggleIsEditing={this.toggleIsEditing}
-        toggleTodo={this.props.toggleTodo}
+        id={props.id}
+        // removeTodo={props.removeTodo}
+        // editTodo={props.editTodo}
+        isEditing={isEditing}
+        toggleIsEditing={setIsEditing}
+        // toggleTodo={props.toggleTodo}
       />
     </Wrapper>
-  )
+  );
 
-  public render() {
-    const { isEditing } = this.state;
-    return isEditing ? this.renderEditingTodo() : this.renderNormalTodo();
-  }
-}
+  return isEditing ? renderEditingTodo() : renderNormalTodo();
+};
+
+export default TodoItem;
