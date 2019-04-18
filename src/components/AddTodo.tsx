@@ -46,6 +46,7 @@ const AddTodo = ({ addTodoDb, addTodoLocal, isAuthenticated }: any) => {
     } else {
       addTodoLocal(todo);
     }
+    setTodo("");
   };
 
   return (
@@ -54,6 +55,7 @@ const AddTodo = ({ addTodoDb, addTodoLocal, isAuthenticated }: any) => {
         type="text"
         placeholder="Task"
         required
+        value={todo}
         onChange={e => setTodo(e.target.value)}
       />
       <Button type="submit">Add Todo</Button>
