@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../utils/config";
 import { ThunkAction } from "redux-thunk";
 import { Action } from "redux";
 import {
@@ -47,7 +47,7 @@ export const login = (
 ): ThunkAction<void, IAppState, null, Action<string>> => async dispatch => {
   dispatch(loginStart());
   try {
-    const res = await axios.post("http://localhost:3001/users/login", {
+    const res = await axios.post("/users/login", {
       email,
       password
     });
@@ -109,7 +109,7 @@ export const register = (
 ): ThunkAction<void, IAppState, null, Action<string>> => async dispatch => {
   dispatch(registerStart());
   try {
-    const res = await axios.post("http://localhost:3001/users/", {
+    const res = await axios.post("/users/", {
       email,
       password
     });

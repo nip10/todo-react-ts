@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../utils/config";
 import { Action } from "redux";
 import { ThunkAction } from "redux-thunk";
 import format from "date-fns/format";
@@ -44,7 +44,7 @@ export const addTodoDb = (
   // We can assume the user is authenticated when it gets here
   try {
     const todo = await axios.post(
-      "http://localhost:3001/todos",
+      "/todos",
       { text },
       { headers: { "x-auth": getState().auth.token } }
     );
@@ -89,7 +89,7 @@ export const removeTodoDb = (
 ) => {
   // We can assume the user is authenticated when it gets here
   try {
-    await axios.delete(`http://localhost:3001/todos/${id}`, {
+    await axios.delete(`/todos/${id}`, {
       headers: { "x-auth": getState().auth.token }
     });
     dispatch(removeTodoSuccess(id));
@@ -136,7 +136,7 @@ export const toggleTodoDb = (
     completedAt: todo.completed ? null : format(new Date(), "DD-MM-YYYY HH:mm")
   };
   try {
-    await axios.patch(`http://localhost:3001/todos/${id}`, updatedTodo, {
+    await axios.patch(`/todos/${id}`, updatedTodo, {
       headers: { "x-auth": getState().auth.token }
     });
     dispatch(toggleTodoSuccess(id));
@@ -178,7 +178,7 @@ export const editTodoDb = (
   // We can assume the user is authenticated when it gets here
   try {
     await axios.patch(
-      `http://localhost:3001/todos/${id}`,
+      `/todos/${id}`,
       { text },
       {
         headers: { "x-auth": getState().auth.token }
