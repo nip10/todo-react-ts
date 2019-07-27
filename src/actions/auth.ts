@@ -55,7 +55,7 @@ export const login = (
     const token = res.headers["x-auth"];
     dispatch(loginSuccess(userId, token));
   } catch (err) {
-    if (err.response.status === 400) {
+    if (err.response && err.response.status === 400) {
       console.log("Invalid credentials");
       dispatch(loginFail("Invalid credentials"));
     } else {
@@ -118,7 +118,7 @@ export const register = (
     dispatch(registerSuccess(userId, token));
   } catch (err) {
     // TODO: Add correct http codes and errors
-    if (err.response.status === 400) {
+    if (err.response && err.response.status === 400) {
       console.log("Duplicated email");
       dispatch(registerFail("Email is already registred"));
     } else {
