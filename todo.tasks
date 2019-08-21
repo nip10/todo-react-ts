@@ -6,24 +6,26 @@ Roadmap:
     The only difference between those users is where the data is being saved (localstorage -
   only available on that device; db - available everywhere)
     Note that authentication is already built into the backend using JWT.
+    Note: In this version, we (kinda) stop using localstorage (to query - data is still updated).
     ✔ Signup @done(19-04-16 17:22)
     ✔ Login @done(19-04-16 17:22)
-  Note: In this version, we (kinda) stop using localstorage (to query - data is still updated).
-  ☐ When the page loads, check if there are todo's in the database
-    ☐ Figure out what to do with todos on localstorage + db
-      First thoughts: show both but separate them on the UI
-    ☐ If yes, add them to the UI
-    ☐ If not, show a message "Add your first todo !"
-  ☐ Every action (add/remove/edit/toggle) should (also) be saved to the database
-☐ v4 - Use both localstorage AND database
-  ☐ Add a timestamp to localstorage
-  ☐ When loading the page, check if the timestamp is more than X mins/hours
-    ☐ If yes, go to the DB
-    ☐ If not, just get the items from localstorage
-☐ v5 - Add offline persistance
-  IndexedDB
+    ☐ Logout
+    ☐ Check the token on page load, if the user was previously authenticated
+  ☐ Merge localstorage and api (db) storage
+    The API will only be used by registred users. However, localstorage can be used by both types
+    ☐ Figure out how to do this
+      Consider different cenarios:
+        - User is NOT authenticated
+          Use localstorage only
+          - User logs in
+            ☐ Solve this
+        - User IS authenticated
+          Use api only
+          - User logs out
+            Clear localstorage ? (will there be anything in ls ?)
 
 Misc:
+  ☐ Fix any's
   ✔ Authenticated users shouldnt be allowed to go to the login or register page @done(19-04-17 12:07)
   ✔ Figure out why the timestamps are no longer showing @done(19-04-16 16:42)
   ✘ useRef for inputs @cancelled(19-04-18 11:52)
@@ -32,7 +34,5 @@ Misc:
     I dont think this is a problem since the server will overwrite that value.
   ☐ Make different types/interfaces for Todos
   ✔ Clear addtodo input after adding a todo @done(19-04-18 11:52)
-
-Deploy:
   ☐ Add google analytics @low
     ✘ Look for a react component to get extra data ? @cancelled(19-04-18 11:53)

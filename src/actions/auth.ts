@@ -9,7 +9,10 @@ import {
   AUTH_FAIL,
   IActionAuthFail,
   AUTH_LOGOUT,
-  IActionAuthLogout
+  IActionAuthLogout,
+  IActionAuthLogoutSuccess,
+  AUTH_LOGOUT_SUCCESS,
+  AUTH_LOGOUT_FAIL
 } from "../store/types/auth";
 import { IAppState } from "../store";
 
@@ -55,6 +58,7 @@ export const login = (
     const token = res.headers["x-auth"];
     dispatch(loginSuccess(userId, token));
   } catch (err) {
+    // TODO: I believe this is wrong ! 400 erros are not thrown to catch, only 500
     if (err.response && err.response.status === 400) {
       console.log("Invalid credentials");
       dispatch(loginFail("Invalid credentials"));
@@ -65,12 +69,42 @@ export const login = (
   }
 };
 
-export const logout = (): IActionAuthLogout => {
+export const logout = (): ThunkAction<
+  void,
+  IAppState,
+  null,
+  Action<string>
+> => async (dispatch, getState) => {
+  try {
+    const { token } = getState().auth;
+    if (!token) {
+      dispatch(logoutFail("You are not authenticated"));
+    }
+    const res = await axios.delete(`/me/${token}`, {
+      headers: { "x-auth": token }
+    });
+    // TODO: Check if status is 200
+  } catch (error) {
+    console.log("Server error");
+    dispatch(logoutFail("Server error"));
+  }
+};
+
+export const logoutSuccess = (): IActionAuthLogoutSuccess => {
   return {
-    type: AUTH_LOGOUT,
+    type: AUTH_LOGOUT_SUCCESS,
     payload: {
       token: "",
       userId: ""
+    }
+  };
+};
+
+export const logoutFail = (error: string): IActionAuthFail => {
+  return {
+    type: AUTH_FAIL,
+    payload: {
+      error
     }
   };
 };
@@ -118,6 +152,7 @@ export const register = (
     dispatch(registerSuccess(userId, token));
   } catch (err) {
     // TODO: Add correct http codes and errors
+    // TODO: I believe this is wrong ! 400 erros are not thrown to catch, only 500
     if (err.response && err.response.status === 400) {
       console.log("Duplicated email");
       dispatch(registerFail("Email is already registred"));

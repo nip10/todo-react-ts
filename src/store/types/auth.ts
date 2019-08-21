@@ -41,8 +41,21 @@ export interface IActionAuthLogout {
   };
 }
 
+export const AUTH_LOGOUT_SUCCESS = "AUTH_LOGOUT_SUCCESS";
+
+export const AUTH_LOGOUT_FAIL = "AUTH_LOGOUT_FAIL";
+
+export interface IActionAuthLogoutSuccess {
+  type: typeof AUTH_LOGOUT_SUCCESS;
+  payload: {
+    token: "";
+    userId: "";
+  };
+}
+
 export type AuthActionTypes =
   | IActionAuthStart
   | IActionAuthSuccess
   | IActionAuthFail
-  | IActionAuthLogout;
+  | IActionAuthLogout
+  | IActionAuthLogoutSuccess;

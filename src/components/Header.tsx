@@ -17,23 +17,24 @@ interface IHeaderProps {
 }
 
 const Header = ({ isAuthenticated }: IHeaderProps) => {
-  let headerAuthText = (
+  const headerAuthText = (
     <>
       <Link href="/login">Sign in</Link> or{" "}
       <Link href="/register">register</Link> to get started.
     </>
   );
-  let headerAuthSubText = (
+  const headerAuthSubText = (
     <p>
       You can still use the app without an account, but you'll only be able to
       manage your todo's in this device.
     </p>
   );
+  const headerAuthLogout = <Link href="/logout">Logout</Link>;
   return (
     <HeaderWrapper>
       <h3>
         Manage your todo's anywhere.
-        {!isAuthenticated && headerAuthText}
+        {!isAuthenticated ? headerAuthText : headerAuthLogout}
       </h3>
       {!isAuthenticated && headerAuthSubText}
     </HeaderWrapper>
