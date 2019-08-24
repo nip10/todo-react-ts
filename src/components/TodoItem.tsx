@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import TodoItemActions from "./TodoItemActions";
 import { ITodo } from "./../types/todo";
@@ -11,10 +11,6 @@ interface ITodoItemProps extends ITodo {
 
 interface ITodoItemWrapperProps {
   completed?: boolean;
-}
-
-interface ITodoItemState {
-  isEditing: boolean;
 }
 
 const Wrapper = styled.li`

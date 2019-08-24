@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Dispatch, Action } from "redux";
+import { Action } from "redux";
 import { connect } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
 import styled from "styled-components";

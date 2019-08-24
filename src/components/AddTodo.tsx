@@ -4,7 +4,6 @@ import { colors } from "./../theme/index";
 import { Action } from "redux";
 import { connect } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
-import get from "lodash/get";
 import { addTodoDb, addTodoLocal } from "../actions/todo";
 
 const Input = styled.input`
