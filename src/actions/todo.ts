@@ -19,7 +19,7 @@ import {
   TODO_EDIT_SUCCESS,
   IActionTodoEditSuccess,
   TODO_EDIT_FAIL,
-  IActionTodoEditFail
+  IActionTodoEditFail,
 } from "../store/types/todo";
 import { IAppState } from "../store";
 
@@ -62,8 +62,8 @@ export const addTodoSuccess = (
     type: TODO_ADD_SUCCESS,
     payload: {
       id,
-      text
-    }
+      text,
+    },
   };
 };
 
@@ -71,8 +71,8 @@ export const addTodoFail = (error: string): IActionTodoAddFail => {
   return {
     type: TODO_ADD_FAIL,
     payload: {
-      error
-    }
+      error,
+    },
   };
 };
 
@@ -90,7 +90,7 @@ export const removeTodoDb = (
   // We can assume the user is authenticated when it gets here
   try {
     await axios.delete(`/todos/${id}`, {
-      headers: { "x-auth": getState().auth.token }
+      headers: { "x-auth": getState().auth.token },
     });
     dispatch(removeTodoSuccess(id));
   } catch (err) {
@@ -102,8 +102,8 @@ export const removeTodoSuccess = (id: string): IActionTodoRemoveSuccess => {
   return {
     type: TODO_REMOVE_SUCCESS,
     payload: {
-      id
-    }
+      id,
+    },
   };
 };
 
@@ -111,8 +111,8 @@ export const removeTodoFail = (error: string): IActionTodoRemoveFail => {
   return {
     type: TODO_REMOVE_FAIL,
     payload: {
-      error
-    }
+      error,
+    },
   };
 };
 
@@ -128,16 +128,16 @@ export const toggleTodoDb = (
   getState
 ) => {
   // We can assume the user is authenticated when it gets here
-  const todoIndex = getState().todos.items.findIndex(todo => todo.id === id);
+  const todoIndex = getState().todos.items.findIndex((todo) => todo.id === id);
   const todo = getState().todos.items[todoIndex];
   const updatedTodo = {
     ...todo,
     completed: !todo.completed,
-    completedAt: todo.completed ? null : format(new Date(), "DD-MM-YYYY HH:mm")
+    completedAt: todo.completed ? null : format(new Date(), "dd-MM-YYYY HH:mm"),
   };
   try {
     await axios.patch(`/todos/${id}`, updatedTodo, {
-      headers: { "x-auth": getState().auth.token }
+      headers: { "x-auth": getState().auth.token },
     });
     dispatch(toggleTodoSuccess(id));
   } catch (err) {
@@ -149,8 +149,8 @@ export const toggleTodoSuccess = (id: string): IActionTodoToggleSuccess => {
   return {
     type: TODO_TOGGLE_SUCCESS,
     payload: {
-      id
-    }
+      id,
+    },
   };
 };
 
@@ -158,8 +158,8 @@ export const toggleTodoFail = (error: string): IActionTodoToggleFail => {
   return {
     type: TODO_TOGGLE_FAIL,
     payload: {
-      error
-    }
+      error,
+    },
   };
 };
 
@@ -181,7 +181,7 @@ export const editTodoDb = (
       `/todos/${id}`,
       { text },
       {
-        headers: { "x-auth": getState().auth.token }
+        headers: { "x-auth": getState().auth.token },
       }
     );
     dispatch(editTodoSuccess(id, text));
@@ -198,8 +198,8 @@ export const editTodoSuccess = (
     type: TODO_EDIT_SUCCESS,
     payload: {
       id,
-      text
-    }
+      text,
+    },
   };
 };
 
@@ -207,7 +207,7 @@ export const editTodoFail = (error: string): IActionTodoEditFail => {
   return {
     type: TODO_EDIT_FAIL,
     payload: {
-      error
-    }
+      error,
+    },
   };
 };

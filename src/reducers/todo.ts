@@ -14,7 +14,7 @@ import {
   IActionTodoToggleSuccess,
   TODO_EDIT_SUCCESS,
   TODO_EDIT_FAIL,
-  IActionTodoEditSuccess
+  IActionTodoEditSuccess,
   // IActionTodoAddFail
   // IActionTodoRemoveFail
   // IActionTodoToggleFail
@@ -22,7 +22,7 @@ import {
 } from "../store/types/todo";
 
 const initialState: ITodoState = {
-  items: []
+  items: [],
 };
 
 const todoAddSuccess = (state: ITodoState, action: IActionTodoAddSuccess) => {
@@ -32,10 +32,10 @@ const todoAddSuccess = (state: ITodoState, action: IActionTodoAddSuccess) => {
       {
         id: action.payload.id,
         text: action.payload.text,
-        createdAt: format(new Date(), "DD-MM-YYYY HH:mm"),
-        completed: false
-      }
-    ]
+        createdAt: format(new Date(), "dd-MM-YYYY HH:mm"),
+        completed: false,
+      },
+    ],
   });
 };
 
@@ -50,7 +50,7 @@ const todoRemoveSuccess = (
   action: IActionTodoRemoveSuccess
 ) => {
   const filteredItems = state.items.filter(
-    item => item.id !== action.payload.id
+    (item) => item.id !== action.payload.id
   );
   return updateObject(state, { items: filteredItems });
 };
@@ -65,14 +65,14 @@ const todoToggleSuccess = (
   state: ITodoState,
   action: IActionTodoToggleSuccess
 ) => {
-  const updatedTodos = state.items.map(todo => {
+  const updatedTodos = state.items.map((todo) => {
     if (todo.id === action.payload.id) {
       // Change the previous completed state and set/clear the completedAt date
       return updateObject(todo, {
         completed: !todo.completed,
         completedAt: todo.completed
           ? null
-          : format(new Date(), "DD-MM-YYYY HH:mm")
+          : format(new Date(), "dd-MM-YYYY HH:mm"),
       });
     }
     return todo;
@@ -87,11 +87,11 @@ const todoToggleSuccess = (
 // };
 
 const todoEditSuccess = (state: ITodoState, action: IActionTodoEditSuccess) => {
-  const updatedTodos = state.items.map(todo => {
+  const updatedTodos = state.items.map((todo) => {
     if (todo.id === action.payload.id) {
       // Change the previous completed state and set/clear the completedAt date
       return updateObject(todo, {
-        text: action.payload.text
+        text: action.payload.text,
       });
     }
     return todo;
