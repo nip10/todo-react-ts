@@ -133,7 +133,7 @@ export const toggleTodoDb = (
   const updatedTodo = {
     ...todo,
     completed: !todo.completed,
-    completedAt: todo.completed ? null : format(new Date(), "dd-MM-YYYY HH:mm"),
+    completedAt: todo.completed ? null : format(new Date(), "dd-MM-yyyy HH:mm"),
   };
   try {
     await axios.patch(`/todos/${id}`, updatedTodo, {

@@ -32,7 +32,7 @@ const todoAddSuccess = (state: ITodoState, action: IActionTodoAddSuccess) => {
       {
         id: action.payload.id,
         text: action.payload.text,
-        createdAt: format(new Date(), "dd-MM-YYYY HH:mm"),
+        createdAt: format(new Date(), "dd-MM-yyyy HH:mm"),
         completed: false,
       },
     ],
@@ -72,7 +72,7 @@ const todoToggleSuccess = (
         completed: !todo.completed,
         completedAt: todo.completed
           ? null
-          : format(new Date(), "dd-MM-YYYY HH:mm"),
+          : format(new Date(), "dd-MM-yyyy HH:mm"),
       });
     }
     return todo;
